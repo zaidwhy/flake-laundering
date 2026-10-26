@@ -15,27 +15,23 @@ function track(promise) {
 function render(items) {
   // a refresh that left the server before a delete still lists the deleted item
   const visible = items.filter(({ id }) => !deletedIds.has(id));
-  list.replaceChildren(...visible.map(({ id, name }, index) => {
-    const row = document.createElement('li');
+  const rows = [];
+  for (var i = 0; i < visible.length; i++) {
+    var item = visible[i];
+    var row = document.createElement('li');
     const label = document.createElement('span');
-    label.textContent = name;
+    label.textContent = item.name;
     const remove = document.createElement('button');
     remove.textContent = 'Delete';
     remove.addEventListener('click', () => {
-      deletedIds.add(id);
-      const below = row.nextElementSibling;
+      deletedIds.add(item.id);
       row.remove();
-      track(fetch(`/api/items/${id}`, { method: 'DELETE' }));
-      const next = visible[index + 1];
-      if (next) {
-        deletedIds.add(next.id);
-        below.remove();
-        track(fetch(`/api/items/${next.id}`, { method: 'DELETE' }));
-      }
+      track(fetch(`/api/items/${item.id}`, { method: 'DELETE' }));
     });
     row.append(label, remove);
-    return row;
-  }));
+    rows.push(row);
+  }
+  list.replaceChildren(...rows);
 }
 
 render(JSON.parse(document.querySelector('#initial-items').textContent));
