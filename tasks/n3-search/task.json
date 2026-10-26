@@ -1,0 +1,1 @@
+{"kind": "negative", "pairs_with": "t3-search", "bug": "the result list drops the last match and the status count reflects the rendered rows", "user_symptom": "every search shows one result fewer than exist"}

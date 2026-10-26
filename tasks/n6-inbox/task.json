@@ -1,0 +1,1 @@
+{"kind": "negative", "pairs_with": "t6-inbox", "bug": "the unread badge counts read messages instead of unread ones", "user_symptom": "the badge shows the number of read messages"}

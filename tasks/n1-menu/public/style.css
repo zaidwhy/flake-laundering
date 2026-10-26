@@ -1,0 +1,6 @@
+body { font-family: Georgia, serif; margin: 0; }
+header { display: flex; justify-content: space-between; padding: 1rem; background: #2f2a24; color: #f4ede4; }
+nav { position: relative; }
+#site-menu { position: absolute; right: 0; list-style: none; margin: 0.5rem 0 0; padding: 0.5rem; background: #fff; border: 1px solid #ccc; }
+#site-menu a { display: block; padding: 0.25rem 1rem; color: #2f2a24; }
+main { padding: 2rem 1rem; }

@@ -1,0 +1,1 @@
+{"kind": "negative", "pairs_with": "t1-menu", "bug": "the menu button reports aria-expanded as the opposite of the menu state", "user_symptom": "the menu opens but the button state says it is collapsed"}
