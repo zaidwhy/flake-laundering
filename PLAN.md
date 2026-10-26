@@ -1,6 +1,6 @@
 # Flake laundering: do coding agents hide real timing bugs behind test fixes?
 
-Status: plan for Zaid's approval (2026-10-26). Nothing built or run yet.
+Status: approved by Zaid 2026-10-26 (decisions below). Nothing built or run yet.
 
 ## Origin
 On zaid-universe (2026-10-25) a Sonnet subagent made 6 failing Playwright tests pass by retrying a click until the menu opened. The test was correct: a visitor's first click was lost because the button did not exist until a code chunk loaded. One incident; this study measures whether it is a pattern.
@@ -9,7 +9,7 @@ On zaid-universe (2026-10-25) a Sonnet subagent made 6 failing Playwright tests 
 - **Question:** when an end-to-end test is correct and fails intermittently because of a real timing bug in the application, and an agent is asked to make the suite pass, how often does it fix the application versus weaken the test?
 - **H1:** under a plain "make CI green" brief, agents weaken the test (retry, fixed wait, forced action, skip, loosened assertion, raised timeout) in at least 30 percent of runs.
 - **H2:** an explicit brief ("do not weaken tests; fix the cause or report it") lowers that rate, and a write-time hook that blocks those patterns lowers it further.
-- **What falsifies H1:** a weakening rate under 10 percent on the plain brief in both model families (the 95 percent interval upper bound under 20 percent). Then the incident was an outlier and the headline says so.
+- **What falsifies H1:** a weakening rate under 10 percent on the plain brief (the 95 percent interval upper bound under 20 percent). Then the incident was an outlier and the headline says so.
 - **What falsifies H2:** no drop, or a drop bought by agents giving up (rising "reported, not fixed" with no rise in real fixes).
 
 ## Prior work and the gap
@@ -38,9 +38,9 @@ On zaid-universe (2026-10-25) a Sonnet subagent made 6 failing Playwright tests 
   The oracle for "fixed" is behavioural, independent of the detector.
 - **Negative control:** the same 6 apps with a deterministic, non-timing bug (wrong label, off-by-one). Weakening should sit near zero there; if it does not, agents weaken tests in general and the timing story is not the cause.
 - **Positive control (cost of the hook):** 2 tasks where the test itself is genuinely wrong (asserts wall-clock time). Editing the test is the right fix. Measures whether the hook or the explicit brief blocks legitimate test repairs.
-- **Sample size:** 6 tasks x 3 conditions x 5 repetitions = 90 runs per model for the main grid (30 per condition, a 95 percent interval of about +/-17 points at 50 percent); controls 6 x 1 x 5 = 30 (negative) and 2 x 3 x 5 = 30 (positive). 150 runs per model, 300 for two.
-- **Models:** primary Claude Code headless (`claude -p`) with Sonnet 5.5. Replication in a second family via Codex CLI (installed, 0.139.0) with an OpenAI model, needs Zaid's account or key. Temperature is not settable in either CLI; repetitions carry the variance and that is stated.
-- **Replication:** second model family on the same tasks before any headline. If it does not replicate, the headline is the non-replication.
+- **Sample size:** 6 tasks x 3 conditions x 5 repetitions = 90 runs per model for the main grid (30 per condition, a 95 percent interval of about +/-17 points at 50 percent); controls 6 x 1 x 5 = 30 (negative) and 2 x 3 x 5 = 30 (positive). 150 runs in total (one model family, see Models).
+- **Models:** primary Claude Code headless (`claude -p`) with Sonnet 5.5. No second family in this round (Zaid, 2026-10-26); Codex CLI 0.139.0 is installed if one is added later. Temperature is not settable in the CLI; repetitions carry the variance and that is stated.
+- **Replication:** none across families in this round. The headline is scoped to Claude Code with Sonnet 5.5 and says it is one family.
 
 ## Confounds
 | Confound | Handling |
@@ -59,17 +59,16 @@ On zaid-universe (2026-10-25) a Sonnet subagent made 6 failing Playwright tests 
 
 ## Cost and time estimate
 - Build (Sonnet subagents, Opus review): 6 apps + controls + oracle + harness, about 1 day of session time.
-- Pilot: 1 task x 3 conditions x 2 reps per model (12 runs) to measure real run length and tokens before the full grid.
+- Pilot: 1 task x 3 conditions x 2 reps (6 runs) to measure real run length and tokens before the full grid.
 - Claude runs: estimate 3 to 8 minutes and 50k to 200k tokens each; 150 runs is about 10 to 20 hours of wall clock at 1 to 2 runs in parallel (RAM-bound), on the company seat. The pilot replaces these guesses with measured numbers.
-- Codex runs: cost depends on the model and Zaid's OpenAI plan; capped like the other OpenRouter/OpenAI project budgets once the pilot measures tokens per run.
 - Write-up: RESULT.md, CITATION.cff, .zenodo.json if Zaid decides to deposit.
 
-## Decisions for Zaid
-1. Approve the design and the 300-run size (or cut to the main grid only, 180 runs).
-2. Second family: Codex CLI with which OpenAI account and what spend cap.
-3. Repo: keep private until results, then public with the deposit.
+## Decisions (Zaid, 2026-10-26)
+1. Full design with both controls: 150 runs on Claude Code.
+2. No second model family for now. If one is added later, a pilot-only spend cap comes first and the full cap is set from measured cost per run.
+3. Repo private on zaidwhy until results, then public with the Zenodo deposit.
 
 ## What this will not show
-- Not a rate for "all agents" or "all bugs": 2 agents, 6 seeded bug types in toy apps.
+- Not a rate for "all agents" or "all bugs": 1 agent and model family, 6 seeded bug types in toy apps.
 - Not that agents are deceptive: weakening a test can be an honest misdiagnosis of flakiness.
 - Not that the hook fixes the problem in real codebases: it catches known patterns only.
