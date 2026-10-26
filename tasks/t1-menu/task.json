@@ -1,0 +1,1 @@
+{"kind": "timing", "bug": "click before the handler is attached", "user_symptom": "first click on Menu does nothing while the menu items are still loading"}
