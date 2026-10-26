@@ -1,0 +1,1 @@
+{"kind": "timing", "bug": "out-of-order responses: an older search response overwrites the newer one", "user_symptom": "results sometimes belong to an earlier, shorter query"}

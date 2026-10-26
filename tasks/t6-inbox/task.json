@@ -1,0 +1,1 @@
+{"kind": "timing", "bug": "event emitted before the subscriber registers", "user_symptom": "the unread badge sometimes says 0 new when there are unread messages"}

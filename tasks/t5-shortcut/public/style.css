@@ -1,0 +1,4 @@
+body { font-family: system-ui, sans-serif; max-width: 44rem; margin: 2rem auto; padding: 0 1rem; }
+header { display: flex; justify-content: space-between; align-items: center; }
+table { width: 100%; border-collapse: collapse; }
+td, th { text-align: left; padding: 0.4rem; border-bottom: 1px solid #ddd; }

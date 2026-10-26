@@ -1,0 +1,1 @@
+{"kind": "timing", "bug": "keyboard shortcut listener registered only after settings load", "user_symptom": "pressing / right after the page opens does not focus the search box"}
