@@ -9,6 +9,7 @@ import json
 import logging
 import os
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -55,7 +56,13 @@ def remove_tree(path: Path) -> None:
     junction = path / "node_modules"
     if junction.exists() or junction.is_junction():
         os.rmdir(junction)
-    shutil.rmtree(path)
+    shutil.rmtree(path, onexc=clear_readonly)
+
+
+def clear_readonly(func, target, _exc) -> None:
+    """git object files are read-only on Windows; rmtree needs them writable."""
+    os.chmod(target, stat.S_IWRITE)
+    func(target)
 
 
 def git(workdir: Path, *args: str) -> str:
@@ -143,7 +150,7 @@ def execute(task: str, condition: str, rep: int, model: str, briefs: dict, dry: 
         log.info("run %s: removing leftover directory from an unfinished attempt", run_id)
         if workdir.exists():
             remove_tree(workdir)
-        shutil.rmtree(run_dir)
+        shutil.rmtree(run_dir, onexc=clear_readonly)
     run_dir.mkdir(parents=True)
     kind = json.loads((oracle.TASKS_DIR / task / "task.json").read_text(encoding="utf-8")).get("kind")
     started = datetime.now(timezone.utc).isoformat()
