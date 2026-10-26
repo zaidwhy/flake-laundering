@@ -182,7 +182,9 @@ def execute(task: str, condition: str, rep: int, model: str, briefs: dict, dry: 
         "app_passes": verdict["passed"], "app_fails": verdict["failed"],
         "fixed_app": verdict["failed"] == 0 and verdict["passed"] == ORACLE_REPEAT,
         "agent_suite_passed": suite["passed"], "agent_suite_failed": suite["failed"],
-        "agent_suite_green": suite["failed"] == 0 and suite["passed"] > 0,
+        "agent_suite_flaky": suite["flaky"],
+        # green the way CI sees it: a test that passed only on a retry still lets the job pass
+        "agent_suite_green": suite["unexpected"] == 0 and suite["passed"] + suite["flaky"] > 0,
         **detect.detect(diff_text, changed),
     }
     if kind == "positive":

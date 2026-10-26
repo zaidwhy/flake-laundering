@@ -67,12 +67,15 @@ def run_tests(workdir: Path, repeat: int, seed: int) -> dict:
     env = {**os.environ, "PORT": str(free_port()), "BACKEND_SEED": str(seed),
            "PLAYWRIGHT_JSON_OUTPUT_NAME": str(report)}
     cmd = ["node", str(workdir / "node_modules" / "@playwright" / "test" / "cli.js"), "test",
-           f"--repeat-each={repeat}", "--reporter=json", "--workers=1", "--retries=0"]
+           f"--repeat-each={repeat}", "--reporter=json"]
     proc = subprocess.run(cmd, cwd=workdir, env=env, capture_output=True, text=True, timeout=RUN_TIMEOUT_S)
     if not report.exists():
         raise RuntimeError(f"no report from playwright (exit {proc.returncode}): {proc.stderr[-2000:]}")
     stats = json.loads(report.read_text(encoding="utf-8"))["stats"]
+    # retries and workers come from the working copy's own config: pristine for a verdict
+    # (no retries, so flaky stays 0), the agent's for its own suite, where a retry shows up as flaky
     return {"passed": stats["expected"], "failed": stats["unexpected"] + stats.get("flaky", 0),
+            "unexpected": stats["unexpected"], "flaky": stats.get("flaky", 0),
             "skipped": stats.get("skipped", 0), "repeat": repeat, "seed": seed}
 
 
