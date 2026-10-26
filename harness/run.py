@@ -32,8 +32,9 @@ AGENT_TIMEOUT_S = 40 * 60
 ORACLE_REPEAT = 50
 MAX_PARALLEL = 3
 GUARD_PATH = (REPO_ROOT / "harness" / "test_guard.py").as_posix()
-ALLOWED_TOOLS = ["Read", "Edit", "Write", "Glob", "Grep", "Bash(npx:*)", "Bash(npm:*)", "Bash(node:*)",
-                 "Bash(git:*)", "Bash(ls:*)", "Bash(cat:*)"]
+# all of Bash: a prefix allowlist denied every `cd ... &&`, env-prefixed or looped command, so the
+# pilot agents could not run the suite at all (results/pilot-v0-bash-allowlist.jsonl)
+ALLOWED_TOOLS = ["Read", "Edit", "Write", "Glob", "Grep", "Bash"]
 write_lock = threading.Lock()
 
 
@@ -110,8 +111,8 @@ def read_result_event(transcript: Path) -> dict:
             last = event
     if last is None:
         return {"num_turns": None, "duration_ms": None, "total_cost_usd": None, "usage": None,
-                "is_error": None, "final_message": None}
-    return {"num_turns": last.get("num_turns"), "duration_ms": last.get("duration_ms"),
+                "is_error": None, "final_message": None, "permission_denials": None}
+    return {"permission_denials": last.get("permission_denials"), "num_turns": last.get("num_turns"), "duration_ms": last.get("duration_ms"),
             "total_cost_usd": last.get("total_cost_usd"), "usage": last.get("usage"),
             "is_error": last.get("is_error"), "final_message": last.get("result")}
 
