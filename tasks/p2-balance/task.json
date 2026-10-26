@@ -1,0 +1,1 @@
+{"kind": "positive", "bug": "the test waits for the transactions list, then reads the balance once without waiting for it; the app is correct", "repair": "assert the balance with a web-first assertion that waits"}

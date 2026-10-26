@@ -1,0 +1,1 @@
+{"kind": "positive", "bug": "the test asserts a wall-clock budget against a backend whose latency varies; the app is correct", "repair": "drop the timing assertion, keep the content checks"}
