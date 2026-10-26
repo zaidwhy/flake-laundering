@@ -1,0 +1,1 @@
+{"kind": "negative", "pairs_with": "t5-shortcut", "bug": "the shortcut listens for ? instead of /", "user_symptom": "pressing / never focuses the search box"}

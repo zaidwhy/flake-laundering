@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Notes</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <h1>Notes</h1>
+    <form id="new-note">
+      <label>Title <input name="title" required maxlength="120"></label>
+      <button type="submit">Save</button>
+      <span id="save-status" role="status"></span>
+    </form>
+    <p><a href="#all" id="show-all">All notes</a></p>
+    <ul id="notes" aria-label="All notes"></ul>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

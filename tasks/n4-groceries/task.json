@@ -1,0 +1,1 @@
+{"kind": "negative", "pairs_with": "t4-groceries", "bug": "Delete also removes the next row from the screen and deletes that item on the server", "user_symptom": "deleting an item makes the item below it disappear too"}

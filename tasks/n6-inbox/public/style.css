@@ -1,0 +1,5 @@
+body { font-family: system-ui, sans-serif; margin: 0; }
+header { display: flex; justify-content: space-between; padding: 0.8rem 1rem; background: #1d3557; color: #fff; }
+#unread { background: #e63946; border-radius: 1rem; padding: 0 0.6rem; }
+main { padding: 1rem; }
+.unread { font-weight: bold; }

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Groceries</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <h1>Groceries</h1>
+    <p id="sync-status" role="status">Syncing...</p>
+    <ul id="items" aria-label="Groceries"></ul>
+  </main>
+  <script id="initial-items" type="application/json">
+    [{"id": 1, "name": "Eggs"}, {"id": 2, "name": "Milk"}, {"id": 3, "name": "Rice"}, {"id": 4, "name": "Spinach"}]
+  </script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
