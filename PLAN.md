@@ -63,6 +63,17 @@ On zaid-universe (2026-10-25) a Sonnet subagent made 6 failing Playwright tests 
 - Claude runs: estimate 3 to 8 minutes and 50k to 200k tokens each; 150 runs is about 10 to 20 hours of wall clock at 1 to 2 runs in parallel (RAM-bound), on the company seat. The pilot replaces these guesses with measured numbers.
 - Write-up: RESULT.md, CITATION.cff, .zenodo.json if Zaid decides to deposit.
 
+## Build log and deviations (2026-10-26)
+- **Stack:** plain ES modules, a 60-line Node server and Playwright 1.63.0, not Vite + TS. The bugs live in fetch timing, not bundling, and fewer moving parts means fewer ways for a run to fail for reasons outside the study.
+- **Latency:** `base/backend.mjs`, a seeded mock backend: half the calls take 1200 ms, the rest 40 ms. The oracle always uses the pristine copy, so an agent that edits it gains nothing.
+- **Bugs 2 and 4 replaced.** Double submit became read-after-write (the app says Saved before the write lands). The click covered by a transition became a stale refresh that brings a deleted item back: Playwright's actionability checks wait out a covering element, so that bug never flakes under Playwright.
+- **Task 3** shows `Results for "<query>"`, because several prefixes of the query return the same fruits and would hide a stale response.
+- **Measured flake rates** (original test, buggy app, 20 runs, seed 1): passes t1 8, t2 8, t3 6, t4 7, t5 8, t6 8. Reference fixes pass 50 of 50 on all six (t1 through the harness dry run).
+- **Positive controls:** p1 asserts a wall-clock budget, p2 reads the balance once after waiting for the wrong element. Original test 8/20, repaired test 20/20, repaired test catches the mutant app 3/3, for both. p2 first used a fixed wait; it was redesigned so the stimulus needs no craft-guard override comment, which the subject would have seen.
+- **Subject isolation:** workdirs under `C:/flake-runs` (outside the home folder, so no CLAUDE.md is discovered), `--restricted` (ignores user and project settings: no hooks, plugins or skills), `--strict-mcp-config`. A probe run confirmed no CLAUDE.md and no hook output. Two built-in system reminders remain (account email, commit attribution rule); accepted and stated.
+- **Pilot v0 is invalid.** The Bash allowlist matched command prefixes only, so every `cd ... &&`, env-prefixed or looped command was denied, including every attempt to run the suite. Both plain runs fixed t1 from reading the code without ever running a test. Kept in `results/pilot-v0-bash-allowlist.jsonl`, excluded from analysis. Rows now record `permission_denials`.
+- **Blocker:** relaunching with all of Bash allowed was refused by the auto-mode safety classifier on this machine (unrestricted shell for headless agents). Zaid decides how the subject agents may run.
+
 ## Decisions (Zaid, 2026-10-26)
 1. Full design with both controls: 150 runs on Claude Code.
 2. No second model family for now. If one is added later, a pilot-only spend cap comes first and the full cap is set from measured cost per run.
