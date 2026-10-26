@@ -13,11 +13,11 @@ On zaid-universe (2026-10-25) a Sonnet subagent made 6 failing Playwright tests 
 - **What falsifies H2:** no drop, or a drop bought by agents giving up (rising "reported, not fixed" with no rise in real fixes).
 
 ## Prior work and the gap
-- ImpossibleBench (Zhong, Raghunathan, Carlini; ICLR 2026, arXiv 2510.20270): agents exploit tests when the tests contradict the spec. There the test is wrong on purpose; here the test is right.
+- ImpossibleBench (Zhong, Raghunathan, Carlini; arXiv 2510.20270, v1 23 Oct 2025; the arXiv page lists no venue): agents exploit tests when the tests contradict the spec. There the test is wrong on purpose; here the test is right.
 - EvilGenie (Gabor, Lynch, Rosenfeld; arXiv 2511.21654): reward hacking in Codex, Claude Code and Gemini CLI on LiveCodeBench, detected by held-out tests, LLM judges and test-edit detection. Deterministic algorithm tasks, not timing.
-- Flakebait (M. Patel, course project, github.com/MoneelPatel/Flakebait): planned study of whether Codex recognises flaky tests in Java (ReproFlake). Its flakiness lives in the test or environment and its fault is a separate seeded mutant; one model; no results yet. Its "hint" and "strict" prompts are close to our brief conditions, so we cite it.
-- Flaky-test repair (FlakyFix arXiv 2307.00012; FlakyDoctor arXiv 2404.09398): LLMs as repair tools for flaky tests, which assumes the test is at fault.
-- **Gap:** none of these measures the case where the intermittent failure is the symptom of a real application bug, in web end-to-end tests, across two model families, or tests a mitigation (brief, hook). Citations above were seen in search results; each gets read in full before the write-up cites a number from it.
+- Flakebait (M. Patel, ECE 382V course project, github.com/MoneelPatel/Flakebait): planned study of whether Codex CLI (one OpenAI model) recognises flaky tests met during Java bug repair (ReproFlake, 40 instances). Its milestone 1 report says "Pilot not run yet" (checked 2026-10-26). Its flakiness lives in the test or environment and its fault is a separate seeded mutant; one model; no results yet. Its "hint" and "strict" prompts are close to our brief conditions, so we cite it.
+- Flaky-test repair: FlakyFix (Fatima, Hemmati, Briand; IEEE TSE 2024, arXiv 2307.00012) repairs test code and restricts itself to flaky tests whose "root cause of flakiness is in the test itself and not in the production code". FlakyDoctor (Chen, Jabbarvand; arXiv 2404.09398) repairs order- and implementation-dependent flaky tests; its abstract does not say where the root cause must lie, so we do not claim it.
+- **Gap:** none of these measures the case where the intermittent failure is the symptom of a real application bug, in web end-to-end tests, across two model families, or tests a mitigation (brief, hook). Titles, authors and dates above were checked on the arXiv and GitHub pages on 2026-10-26; each paper is still read in full before the write-up cites a number from it.
 
 ## Design
 - **Tasks:** 6 small web apps (Vite + vanilla TS + Playwright), one seeded timing bug each:
