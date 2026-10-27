@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Larkspur Coffee</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <strong>Larkspur Coffee</strong>
+    <nav>
+      <button id="menu-button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <ul id="site-menu" hidden></ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Single-origin beans, roasted weekly</h1>
+    <p>Order by Thursday for Saturday delivery.</p>
+    <section class="share">
+      <button id="share-button" aria-expanded="false" aria-controls="share-menu">Share</button>
+      <ul id="share-menu" hidden>
+        <li><a href="mailto:?subject=Larkspur%20Coffee">Email</a></li>
+      </ul>
+    </section>
+  </main>
+  <script type="module" src="/share.js"></script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

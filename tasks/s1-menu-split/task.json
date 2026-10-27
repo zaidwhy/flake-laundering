@@ -1,0 +1,1 @@
+{"kind": "timing", "study": 2, "family": "split", "bug": "click handler attached by a lazily imported module that loads only after the session request", "user_symptom": "first click on Menu does nothing while the session is still loading"}

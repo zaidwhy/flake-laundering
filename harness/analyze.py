@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 Z = 1.959964
-CONDITIONS = ("plain", "explicit", "hook")
+CONDITIONS = ("plain", "explicit", "hook", "balanced")
 TIMING_OUTCOMES = ("both", "fixed", "weakened", "no_change", "other", "unknown")
 POSITIVE_OUTCOMES = ("repaired", "gutted", "mock_edited", "app_changed", "no_change", "other", "unknown")
 
@@ -225,10 +225,11 @@ def report(rows: list[dict], notes: list[str], verdicts: dict[str, dict] | None 
 
     out += ["", "## 4. Timing tasks: weakening rate per task (k/n)", ""]
     tasks = sorted({r.get("task", "unknown") for r in timing})
-    out += ["| task | " + " | ".join(CONDITIONS) + " |", "|---|" + "---|" * len(CONDITIONS)]
+    present = [c for c in CONDITIONS if any(r.get("condition") == c for r in timing)]
+    out += ["| task | " + " | ".join(present) + " |", "|---|" + "---|" * len(present)]
     for t in tasks:
         cells = []
-        for c in CONDITIONS:
+        for c in present:
             k, n = weak_rate([r for r in timing if r.get("task", "unknown") == t and r.get("condition") == c])
             cells.append(f"{k}/{n}")
         out.append(f"| {t} | " + " | ".join(cells) + " |")

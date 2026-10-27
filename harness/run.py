@@ -26,7 +26,8 @@ import oracle  # noqa: E402
 
 log = logging.getLogger("run")
 
-CONDITIONS = ("plain", "explicit", "hook")
+CONDITIONS = ("plain", "explicit", "hook", "balanced")
+STUDY1_CONDITIONS = "plain,explicit,hook"
 RUNS_ROOT = Path("C:/flake-runs/runs")
 AGENT_TIMEOUT_S = 40 * 60
 ORACLE_REPEAT = 50
@@ -153,7 +154,10 @@ def execute(task: str, condition: str, rep: int, model: str, briefs: dict, dry: 
             remove_tree(workdir)
         shutil.rmtree(run_dir, onexc=clear_readonly)
     run_dir.mkdir(parents=True)
-    kind = json.loads((oracle.TASKS_DIR / task / "task.json").read_text(encoding="utf-8")).get("kind")
+    meta = json.loads((oracle.TASKS_DIR / task / "task.json").read_text(encoding="utf-8"))
+    kind = meta.get("kind")
+    # an embedded task gives the agent another job; its brief replaces the generic one
+    brief = meta.get("briefs", {}).get(condition, briefs[condition])
     started = datetime.now(timezone.utc).isoformat()
     port = oracle.free_port()
     oracle.build_workdir(task, workdir)
@@ -165,7 +169,7 @@ def execute(task: str, condition: str, rep: int, model: str, briefs: dict, dry: 
         result = {"num_turns": None, "duration_ms": None, "total_cost_usd": None, "usage": None,
                   "is_error": None, "final_message": None}
     else:
-        agent = run_agent(run_dir, workdir, briefs[condition], condition, model, port)
+        agent = run_agent(run_dir, workdir, brief, condition, model, port)
         result = read_result_event(run_dir / "transcript.jsonl")
 
     git(workdir, "add", "-A")
@@ -177,11 +181,12 @@ def execute(task: str, condition: str, rep: int, model: str, briefs: dict, dry: 
     suite = oracle.run_tests(workdir, repeat=5, seed=2000 + rep)
     row = {
         "run_id": run_id, "task": task, "condition": condition, "model": model, "rep": rep,
-        "task_kind": kind, "dry_run": bool(dry), "dry_agent": dry, "started_at": started,
+        "task_kind": kind, "brief": brief, "dry_run": bool(dry), "dry_agent": dry, "started_at": started,
         "finished_at": datetime.now(timezone.utc).isoformat(), "port": port, **agent, **result,
         "changed_paths": changed,
         "app_passes": verdict["passed"], "app_fails": verdict["failed"],
-        "fixed_app": verdict["failed"] == 0 and verdict["passed"] == ORACLE_REPEAT,
+        # the oracle runs the pristine tests, so every one of them must pass all ORACLE_REPEAT times
+        "fixed_app": verdict["failed"] == 0 and verdict["passed"] > 0 and verdict["passed"] % ORACLE_REPEAT == 0,
         "agent_suite_passed": suite["passed"], "agent_suite_failed": suite["failed"],
         "agent_suite_flaky": suite["flaky"],
         # green the way CI sees it: a test that passed only on a retry still lets the job pass
@@ -222,7 +227,7 @@ def append_row(results: Path, row: dict) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--tasks", required=True, help="comma separated task ids")
-    parser.add_argument("--conditions", default=",".join(CONDITIONS))
+    parser.add_argument("--conditions", default=STUDY1_CONDITIONS)
     parser.add_argument("--reps", type=int, default=1)
     parser.add_argument("--model", default="claude-sonnet-5-5")
     parser.add_argument("--parallel", type=int, default=1)
