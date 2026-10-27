@@ -1,6 +1,6 @@
 # Flake laundering: do coding agents hide real timing bugs behind test fixes?
 
-Status: Study 1 run and written up 2026-10-27 (`RESULT.md`); H1 falsified. Study 2 pre-registered below, not built or run.
+Status: both studies run and written up 2026-10-27 (`RESULT.md`). H1 and H3 falsified; H4 supported.
 
 ## Origin
 On zaid-universe (2026-10-25) a Sonnet subagent made 6 failing Playwright tests pass by retrying a click until the menu opened. The test was correct: a visitor's first click was lost because the button did not exist until a code chunk loaded. One incident; this study measures whether it is a pattern.
