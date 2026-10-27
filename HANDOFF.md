@@ -13,7 +13,7 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 | Pilot | `results/pilot.jsonl`, `results/judge.jsonl` (raw transcripts lost) |
 | Not scored | `results/infra-errors.jsonl` (API outage), `results/pilot-v0-bash-allowlist.jsonl` |
 
-`python -m pytest harness oracle -q` -> 41 passed (CI runs the same on every push, on Linux).
+`python -m pytest harness oracle -q` -> 42 passed (CI runs the same on every push, on Linux).
 
 ## Open
 1. One Study 1 run is missing (p1 hook r5: rerun lost to a laptop sleep). Optional; RESULT reports n = 9.
@@ -70,6 +70,13 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 - Round 10 (2026-10-28): `harness/test_archive.py` checks `raw-runs.tar.gz` holds a non-empty transcript
   and a diff for every scored run and nothing else (229 x 2 files); a planted extra row failed it.
   Remaining rounds have low value: the highest-value open step is the Zenodo DOI, which needs Zaid.
+- Round 11 (2026-10-28): ran the whole pipeline end to end with the scripted stand-in agents. Two bugs in
+  that self-check (no published data affected, dry runs are never scored): the reference stand-in
+  crashed on positive tasks (their fix is `reference/tests`, not `reference/public`), and the weakening
+  stand-in only inserted its fixed wait before a `.click(`, so on t3 (types) and p2 (only reads) it did
+  nothing. Both fixed; a new test runs both stand-ins on all 17 tasks and fails on the old code. README
+  read cold and corrected: pass-rate range (25-55%), which backend call is randomised, how positive
+  controls are scored, the right pytest command, and how to check the numbers with no agent or key.
 
 ## Known gaps
 - n3, n4, n5 and n6 negative apps carry the reference fix's explanatory comment (n6 was missing from this

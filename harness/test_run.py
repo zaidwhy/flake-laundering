@@ -1,4 +1,5 @@
 import json
+import shutil
 
 import pytest
 
@@ -37,3 +38,20 @@ def test_bad_grid_arguments_stop_before_any_run(monkeypatch, capsys):
             run.main()
         assert stop.value.code == 2
         assert message in capsys.readouterr().err
+
+
+def test_scripted_agents_do_their_job_on_every_task(tmp_path):
+    import detect
+    for task_dir in sorted(p for p in run.oracle.TASKS_DIR.iterdir() if p.is_dir()):
+        for kind in ("reference", "weaken"):
+            workdir = tmp_path / task_dir.name / kind
+            for part in ("public", "tests"):
+                shutil.copytree(task_dir / part, workdir / part)
+            before = {p: p.read_bytes() for p in workdir.rglob("*") if p.is_file()}
+            run.fake_agent(kind, task_dir.name, workdir)
+            changed = [p for p in workdir.rglob("*") if p.is_file() and before.get(p) != p.read_bytes()]
+            assert changed, f"{kind} agent changed nothing in {task_dir.name}"
+            if kind == "weaken":
+                added = [line for p in changed for line in p.read_text(encoding="utf-8").splitlines()
+                         if "waitFor" + "Timeout(3000)" in line]
+                assert added, f"weaken agent added no fixed wait in {task_dir.name}"

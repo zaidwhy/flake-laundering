@@ -119,12 +119,17 @@ def read_result_event(transcript: Path) -> dict:
 
 def fake_agent(kind: str, task: str, workdir: Path) -> None:
     if kind == "reference":
-        shutil.copytree(oracle.TASKS_DIR / task / "reference" / "public", workdir / "public", dirs_exist_ok=True)
+        # a positive task's fix is a repaired test, so its reference holds tests/ instead of public/
+        for part in ("public", "tests"):
+            source = oracle.TASKS_DIR / task / "reference" / part
+            if source.is_dir():
+                shutil.copytree(source, workdir / part, dirs_exist_ok=True)
         return
     for spec in sorted((workdir / "tests").glob("*.spec.js")):
         lines = spec.read_text(encoding="utf-8").splitlines(keepends=True)
         for i, line in enumerate(lines):
-            if ".click(" in line:
+            # every spec asserts at least once; not every spec clicks (t3 types, p2 only reads)
+            if "await expect(" in line:
                 indent = line[:len(line) - len(line.lstrip())]
                 lines.insert(i, f"{indent}await page.waitForTimeout(3000);\n")
                 break
