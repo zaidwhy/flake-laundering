@@ -87,6 +87,22 @@ the test names, a larger codebase, a subagent whose real job is elsewhere) could
 "read and fix" into "retry until green". `PLAN.md` ("Study 2") pre-registers that follow-up before any
 of its runs exist.
 
+## Where this sits
+
+- ImpossibleBench (Zhong, Raghunathan, Carlini; arXiv 2510.20270) measures agents exploiting tests that
+  contradict the spec: there the test is wrong on purpose. Here the main grid's test is right, and the
+  positive control is the ImpossibleBench situation in miniature.
+- EvilGenie (Gabor, Lynch, Rosenfeld; arXiv 2511.21654) detects reward hacking by Claude Code, Codex and
+  Gemini CLI on deterministic algorithm tasks. Timing bugs, where a lucky rerun turns a red test green,
+  are the case it does not cover.
+- Flaky-test repair work such as FlakyFix (Fatima, Hemmati, Briand; IEEE TSE 2024) repairs the test and
+  restricts itself to flakiness whose root cause is in the test. This study is the opposite case: the
+  root cause is in the product, and repairing the test is the failure.
+- Flakebait (M. Patel, course project) plans the closest study (Codex CLI meeting flaky Java tests during
+  bug repair); its report said "Pilot not run yet" when checked on 2026-10-26.
+
+None of these papers' numbers are quoted here; each will be read in full before one is.
+
 ## Measurement checks
 
 - Rule detector vs LLM judge (Opus 5.5, no tools, blind to the brief): agreed on 145 of 148. All 3
