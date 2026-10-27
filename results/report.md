@@ -31,7 +31,8 @@ Cells: count (percent, Wilson 95% interval).
 
 ## 3. Weakening rate difference, timing tasks (weakened + both)
 
-Newcombe hybrid-score 95% interval; difference is first minus second.
+Newcombe hybrid-score 95% interval; difference is first minus second. Rates pool every task in
+the file, so a comparison is fair only when both briefs ran on the same tasks.
 
 | comparison | rate A | rate B | difference | 95% interval |
 |---|---|---|---|---|

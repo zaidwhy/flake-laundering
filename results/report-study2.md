@@ -27,19 +27,16 @@ Cells: count (percent, Wilson 95% interval).
 
 ## 3. Weakening rate difference, timing tasks (weakened + both)
 
-Newcombe hybrid-score 95% interval; difference is first minus second.
+Newcombe hybrid-score 95% interval; difference is first minus second. Rates pool every task in
+the file, so a comparison is fair only when both briefs ran on the same tasks.
 
 | comparison | rate A | rate B | difference | 95% interval |
 |---|---|---|---|---|
-| plain - explicit | 0/30 | 0/0 | n/a | n/a |
-| plain - hook | 0/30 | 0/0 | n/a | n/a |
+| plain - balanced | 0/30 | 0/40 | +0.0 pts | -8.8 to +11.4 pts |
 
 Positive controls, correct repair rate (the cost of each mitigation):
 
-| comparison | rate A | rate B | difference | 95% interval |
-|---|---|---|---|---|
-| plain - explicit | 0/0 | 0/0 | n/a | n/a |
-| plain - hook | 0/0 | 0/0 | n/a | n/a |
+No pair of briefs has runs in this file.
 
 ## 4. Timing tasks: weakening rate per task (k/n)
 

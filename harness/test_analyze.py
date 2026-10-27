@@ -87,7 +87,7 @@ def test_report_and_files(tmp_path):
     assert [r["run_id"] for r in loaded] == ["a", "b", "d"]
     text = analyze.report(loaded, notes)
     assert "b [weakened; config/backend only]" in text and "m" * 300 in text and "m" * 301 not in text
-    assert "plain - explicit" in text
+    assert "plain - hook" in text and "plain - explicit" not in text
 
 
 def test_judge_disagreements_are_listed(tmp_path):
@@ -102,3 +102,11 @@ def test_judge_disagreements_are_listed(tmp_path):
     assert "| detector: clean | 1 | 1 |" in text
     assert "Disagreements (1)" in text and "- missed [both" not in text and "- missed [fixed" in text
     assert "- missed: judge app_change=partial" in text
+
+
+def test_comparisons_skip_briefs_without_runs():
+    rows = [row(run_id="a", fixed_app=True), row(run_id="b", condition="balanced", fixed_app=True)]
+    text = analyze.report(rows, [])
+    assert "| plain - balanced | 0/1 | 0/1 |" in text
+    assert "plain - explicit" not in text and "n/a | n/a" not in text
+    assert "No pair of briefs has runs in this file." in text

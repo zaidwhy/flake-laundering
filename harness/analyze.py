@@ -143,6 +143,19 @@ def fmt_num(vals: list, scale: float = 1.0, digits: int = 2) -> str:
     return text + (f" ({missing} unknown)" if missing else "")
 
 
+def comparison_table(rates: dict[str, tuple[int, int]]) -> list[str]:
+    """Plain against every other brief that has runs; a brief with no runs in this file gets no row."""
+    pairs = [("plain", c) for c in CONDITIONS if c != "plain" and rates["plain"][1] and rates[c][1]]
+    if not pairs:
+        return ["No pair of briefs has runs in this file."]
+    out = ["| comparison | rate A | rate B | difference | 95% interval |", "|---|---|---|---|---|"]
+    for a, b in pairs:
+        (k1, n1), (k2, n2) = rates[a], rates[b]
+        d, lo, hi = newcombe_diff(k1, n1, k2, n2)
+        out.append(f"| {a} - {b} | {k1}/{n1} | {k2}/{n2} | {100 * d:+.1f} pts | {100 * lo:+.1f} to {100 * hi:+.1f} pts |")
+    return out
+
+
 def judge_section(rows: list[dict], verdicts: dict[str, dict]) -> list[str]:
     """Rule detector against the LLM judge: the disagreements are the runs a human must read."""
     out = ["", "## 7. Rule detector vs LLM judge (test or setup change masks the bug)", ""]
@@ -200,28 +213,12 @@ def report(rows: list[dict], notes: list[str], verdicts: dict[str, dict] | None 
     out += outcome_table(positive, POSITIVE_OUTCOMES)
 
     out += ["", "## 3. Weakening rate difference, timing tasks (weakened + both)", "",
-            "Newcombe hybrid-score 95% interval; difference is first minus second.", "",
-            "| comparison | rate A | rate B | difference | 95% interval |", "|---|---|---|---|---|"]
-    by_cond = {c: weak_rate([r for r in timing if r.get("condition") == c]) for c in CONDITIONS}
-    for a, b in (("plain", "explicit"), ("plain", "hook")):
-        (k1, n1), (k2, n2) = by_cond[a], by_cond[b]
-        if n1 and n2:
-            d, lo, hi = newcombe_diff(k1, n1, k2, n2)
-            out.append(f"| {a} - {b} | {k1}/{n1} | {k2}/{n2} | {100 * d:+.1f} pts | {100 * lo:+.1f} to {100 * hi:+.1f} pts |")
-        else:
-            out.append(f"| {a} - {b} | {k1}/{n1} | {k2}/{n2} | n/a | n/a |")
-
-    out += ["", "Positive controls, correct repair rate (the cost of each mitigation):", "",
-            "| comparison | rate A | rate B | difference | 95% interval |", "|---|---|---|---|---|"]
-    repaired = {c: (sum(r["_label"] == "repaired" for r in positive if r.get("condition") == c),
-                    sum(r.get("condition") == c for r in positive)) for c in CONDITIONS}
-    for a, b in (("plain", "explicit"), ("plain", "hook")):
-        (k1, n1), (k2, n2) = repaired[a], repaired[b]
-        if n1 and n2:
-            d, lo, hi = newcombe_diff(k1, n1, k2, n2)
-            out.append(f"| {a} - {b} | {k1}/{n1} | {k2}/{n2} | {100 * d:+.1f} pts | {100 * lo:+.1f} to {100 * hi:+.1f} pts |")
-        else:
-            out.append(f"| {a} - {b} | {k1}/{n1} | {k2}/{n2} | n/a | n/a |")
+            "Newcombe hybrid-score 95% interval; difference is first minus second. Rates pool every task in",
+            "the file, so a comparison is fair only when both briefs ran on the same tasks.", ""]
+    out += comparison_table({c: weak_rate([r for r in timing if r.get("condition") == c]) for c in CONDITIONS})
+    out += ["", "Positive controls, correct repair rate (the cost of each mitigation):", ""]
+    out += comparison_table({c: (sum(r["_label"] == "repaired" for r in positive if r.get("condition") == c),
+                                 sum(r.get("condition") == c for r in positive)) for c in CONDITIONS})
 
     out += ["", "## 4. Timing tasks: weakening rate per task (k/n)", ""]
     tasks = sorted({r.get("task", "unknown") for r in timing})
