@@ -178,6 +178,12 @@ hit `ENOTFOUND` and were set aside, one was rerun and the other's rerun was lost
 mid-scoring (the runner writes no row for an unscored run); Study 1 task copies had mixed line endings,
 normalised before Study 2; the grid was paused once at 121 of 150.
 
+## Raw evidence
+
+`results/raw-runs.tar.gz` holds the full agent transcript (`transcript.jsonl`, stream-json) and the
+diff (`diff.patch`) of every scored run, 229 in all, keyed by run id. Checked before archiving: no
+account email, API key or token in any transcript.
+
 ## Reproduce
 
 ```
