@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this project or its findings, please cite it as below."
+title: "Flake Laundering: Does a Coding Agent Fix the Race or Weaken the Test?"
+authors:
+  - family-names: "Syed"
+    given-names: "Zaid Ali"
+    orcid: "https://orcid.org/0009-0003-4313-1510"
+version: 1.0.0
+date-released: 2026-10-28
+url: "https://github.com/zaidwhy/flake-laundering"
+repository-code: "https://github.com/zaidwhy/flake-laundering"
+license: MIT
+abstract: >
+  Two pre-registered studies, 229 scored runs of Claude Code (Sonnet 5.5) on web apps whose
+  correct end-to-end test fails intermittently because of a real race. Under a plain "get CI
+  green" brief the agent weakened the test in 0 of 60 runs and fixed the race in 60 of 60,
+  including when the cause was split across lazily loaded modules, buried in a 44-file app, or
+  met while shipping an unrelated feature. On tests that were genuinely wrong, the brief "do not
+  change the tests" cut correct repairs from 9 of 10 to 0 of 10; asking instead "the test may be
+  wrong or the app may be wrong; find out which" repaired 10 of 10 and weakened 0 of 40 correct
+  tests.
+keywords:
+  - coding agents
+  - flaky tests
+  - reward hacking
+  - end-to-end testing
+  - race conditions
+  - prompt design
+  - pre-registration

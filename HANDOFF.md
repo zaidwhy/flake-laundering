@@ -21,9 +21,7 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
    then judge, regenerate `results/report.md`, update the hook row in RESULT.md.
 2. Going public (Zaid's decision 2026-10-26: private until results, then public with a Zenodo deposit).
    Results exist; flipping the repo public and minting a DOI are left for Zaid to trigger.
-3. Read the four cited papers in full before any number from them is quoted (none is now).
 
 ## Known gaps
 - n3, n4 and n5 negative apps carry the reference fix's explanatory comment; the t-apps carry none.
 - Two built-in system reminders reach the subject (account email, commit attribution); stated in PLAN.
-- Each cited paper is still to be read in full before a number from it is quoted; RESULT.md quotes none.

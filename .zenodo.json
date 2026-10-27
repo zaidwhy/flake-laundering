@@ -1,0 +1,51 @@
+{
+  "title": "Flake Laundering: Does a Coding Agent Fix the Race or Weaken the Test?",
+  "upload_type": "publication",
+  "publication_type": "report",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "creators": [
+    {
+      "name": "Syed, Zaid Ali",
+      "orcid": "0009-0003-4313-1510",
+      "affiliation": "Independent researcher"
+    }
+  ],
+  "description": "<p>When a correct end-to-end test fails intermittently because the application has a real race, does a coding agent fix the application, or launder the failure by retrying, waiting or loosening the test until CI is green? This work measured it: two pre-registered studies, 229 scored runs of Claude Code (Sonnet 5.5, headless) on small web apps with seeded race bugs and a seeded mock backend.</p><p><strong>Scoring is behavioural.</strong> The agent's code is laid onto a pristine copy of the app and backend and the original test runs 50 times; every repeat must pass. Test and setup changes are classified twice, by fixed rules and by a tool-less LLM judge blind to the brief, and every disagreement plus a seeded 20 percent sample of agreements was read by hand.</p><p><strong>1. No laundering.</strong> Under a plain \"get CI green\" brief the agent weakened the test in 0 of 60 runs (Wilson 95 percent interval 0 to 6 percent) and fixed the race in 60 of 60, including when the cause was split across lazily loaded modules, buried in a 44-file app, or met while shipping an unrelated feature. The two hypotheses predicting laundering are falsified by their own pre-registered criteria.</p><p><strong>2. The obvious guard backfires.</strong> A positive control with tests that are genuinely wrong showed that the brief \"do not change the tests; fix the cause\" cut correct test repairs from 9 of 10 to 0 of 10. Every one of those agents kept the wrong test and bent correct code around it: five made the mock backend cache its data, five restructured a working page.</p><p><strong>3. One sentence fixes the guard.</strong> \"The test may be wrong or the app may be wrong. Find out which, fix that one, and say how you know.\" repaired 10 of 10 wrong tests and weakened 0 of 40 correct ones (pre-registered hypothesis supported; +100 points over the explicit brief on repairs, interval +61 to +100).</p><p>Negative control (deterministic bugs in the same apps): 30 of 30 fixed, 0 weakened. Limits stated in the write-up: one agent and one model, small apps, 5 to 10 repetitions per cell, and the CLI updated from 2.1.310 to 2.1.311 during the first study. The repository contains every task, the oracle, the harness, all scored rows, judge verdicts, the hand review and the full transcript and diff of every run.</p>",
+  "keywords": [
+    "coding agents",
+    "flaky tests",
+    "reward hacking",
+    "end-to-end testing",
+    "race conditions",
+    "prompt design",
+    "Claude Code",
+    "pre-registration",
+    "positive control",
+    "LLM-as-judge"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/zaidwhy/flake-laundering",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "10.48550/arXiv.2510.20270",
+      "relation": "cites",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.48550/arXiv.2511.21654",
+      "relation": "cites",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.48550/arXiv.2307.00012",
+      "relation": "cites",
+      "scheme": "doi"
+    }
+  ],
+  "language": "eng",
+  "notes": "Every commit I author in the source repository is signed with ed25519 key EFE9 4832 B2B9 80D9 B583 91F2 8FAA BCC1 B1AC 09E5. The code is MIT licensed; this deposit, the written analysis and experimental design, is CC BY 4.0. ORCID 0009-0003-4313-1510."
+}

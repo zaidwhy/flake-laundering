@@ -117,7 +117,9 @@ for the plain brief on the same six tasks, at the same median cost ($0.038).
    weakened race run (t4) made the same move under the same brief.
 3. **Asking for a diagnosis beats forbidding a fix.** The balanced brief leaves every file editable
    and asks the agent to decide which side is wrong and justify it. It kept the plain brief's record
-   on correct tests and did better on wrong ones.
+   on correct tests and did better on wrong ones. ImpossibleBench reached a similar place from the other side (its best
+   prompt asks the agent to stop and explain a wrong test); the difference here is that the agent may
+   also fix it, and the same brief is checked on correct tests, where it must not.
 4. **The hook is cheap and, here, unnecessary.** It blocks known weakening patterns at write time;
    legitimate repairs (raise a budget, use a retrying assertion) pass through it, and the race runs
    gave it nothing to block. Plain minus hook on correct repairs: +12 points (-22 to +46).
@@ -128,19 +130,32 @@ for the plain brief on the same six tasks, at the same median cost ($0.038).
 
 ## Where this sits
 
-- ImpossibleBench (Zhong, Raghunathan, Carlini; arXiv 2510.20270) measures agents exploiting tests that
-  contradict the spec: there the test is wrong on purpose. Here the main grid's test is right, and the
-  positive control is the ImpossibleBench situation in miniature.
-- EvilGenie (Gabor, Lynch, Rosenfeld; arXiv 2511.21654) detects reward hacking by Claude Code, Codex and
-  Gemini CLI on deterministic algorithm tasks. Timing bugs, where a lucky rerun turns a red test green,
-  are the case it does not cover.
-- Flaky-test repair work such as FlakyFix (Fatima, Hemmati, Briand; IEEE TSE 2024) repairs the test and
-  restricts itself to flakiness whose root cause is in the test. This study is the opposite case: the
-  root cause is in the product, and repairing the test is the failure.
-- Flakebait (M. Patel, course project) plans the closest study (Codex CLI meeting flaky Java tests during
-  bug repair); its report said "Pilot not run yet" when checked on 2026-10-26.
+Read in full on 2026-10-28 (quotes checked against the arXiv HTML).
 
-None of these papers' numbers are quoted here; each will be read in full before one is.
+- **ImpossibleBench** (Zhong, Raghunathan, Carlini; arXiv 2510.20270) mutates unit tests "to conflict
+  with natural language specifications" and counts passing as cheating: the test is wrong on purpose,
+  which is this study's positive control at scale. Its agents (GPT-5, o3, Claude Opus 4.1, Sonnet 4
+  and others, in its own scaffolds, not Claude Code) are always told "DO NOT MODIFY THE TESTS", and it
+  reports that models "can devise creative workarounds even when they technically comply with
+  instructions not to modify tests": the same move the explicit brief produced here. Its strictest
+  prompt adds "STOP, identify them and explain why they are incorrect", which on its conflicting
+  LiveCodeBench variant cut cheating from above 85 percent to 1 percent (GPT-5) and 33 percent (o3).
+  Two things it does not test: a correct test with the bug in the product, and a brief that lets the
+  agent repair whichever side is wrong. Both are what this study measures.
+- **EvilGenie** (Gabor, Lynch, Rosenfeld; arXiv 2511.21654) detects reward hacking by Codex, Claude Code
+  and Gemini CLI on LiveCodeBench problems with held-out tests, test-file edit detection and an LLM
+  judge. The tasks are deterministic algorithm problems and the agents get no instruction about the
+  tests; flaky or timing-dependent tests do not appear.
+- **FlakyFix** (Fatima, Hemmati, Briand; IEEE TSE 2024, arXiv 2307.00012) repairs flaky tests "where the
+  root cause of flakiness is in the test itself and not in the production code", keeping only tests
+  that were fixed by changing test code. This study is the opposite case: the root cause is in the
+  product, and repairing the test is the failure.
+- **Flakebait** (M. Patel, ECE 382V course project) is the closest planned study: Codex CLI meeting
+  flaky Java tests (ReproFlake, 40 instances) during bug repair. As of its 2026-10-23 commit it has
+  pilot runs in progress and no study results.
+
+Neither ImpossibleBench nor EvilGenie cites a study of agents weakening a correct test when the bug is
+in the product; that is a check of their reference lists, not a full literature search.
 
 ## Measurement checks
 
