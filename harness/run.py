@@ -193,6 +193,13 @@ def execute(task: str, condition: str, rep: int, model: str, briefs: dict, dry: 
     return row
 
 
+def clashing_runs(todo_ids: list[str], results: Path, runs_root: Path) -> list[str]:
+    """Run dirs are keyed by run id alone, so a finished run recorded in another results file would be
+    mistaken for a leftover and deleted (the pilot's transcripts were lost this way on 2026-10-26)."""
+    elsewhere = set().union(*(finished_ids(p) for p in results.parent.glob("*.jsonl") if p != results))
+    return [run_id for run_id in todo_ids if run_id in elsewhere and (runs_root / run_id).exists()]
+
+
 def finished_ids(results: Path) -> set[str]:
     if not results.exists():
         return set()
@@ -245,6 +252,10 @@ def main() -> int:
         else:
             todo.append((t, c, r))
     log.info("%d runs in grid, %d to do", len(grid), len(todo))
+    clashes = clashing_runs([f"{t}__{c}__{args.model}__r{r}" for t, c, r in todo], results, runs_root)
+    if clashes:
+        parser.error(f"{len(clashes)} run dirs belong to runs recorded in another results file, "
+                     f"move them first: {clashes[:3]}")
 
     failures = 0
     with ThreadPoolExecutor(max_workers=args.parallel) as pool:
@@ -257,6 +268,12 @@ def main() -> int:
             except Exception:
                 failures += 1
                 log.exception("run %s failed; no row written, rerun to retry it", run_id)
+                continue
+            if row.get("is_error") and not row.get("total_cost_usd"):
+                # the CLI never reached the model (network or API outage); the agent did nothing to score
+                failures += 1
+                log.error("run %s: API unreachable (%s); no row written, rerun to retry it", run_id,
+                          (row.get("final_message") or "")[:120])
                 continue
             append_row(results, row)
             log.info("run %s: fixed_app=%s weakened_candidate=%s hits=%s", run_id, row["fixed_app"],
