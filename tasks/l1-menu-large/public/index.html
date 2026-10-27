@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Larkspur Coffee</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <strong>Larkspur Coffee</strong>
+    <span id="greeting"></span>
+    <div class="header-actions">
+      <button id="cart-button" aria-expanded="false" aria-controls="cart-drawer">Cart <span id="cart-count">0</span></button>
+      <nav>
+        <button id="menu-button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+        <ul id="site-menu" hidden></ul>
+      </nav>
+    </div>
+  </header>
+  <main id="view" tabindex="-1"></main>
+  <aside id="cart-drawer" aria-label="Shopping cart" hidden></aside>
+  <footer id="site-footer"></footer>
+  <div id="toasts" aria-live="polite"></div>
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
