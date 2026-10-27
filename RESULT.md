@@ -182,6 +182,10 @@ in the product; that is a check of their reference lists, not a full literature 
 - Not proof the incident was a fluke: it happened to a subagent deep inside a long session with a
   large context, which these short single-task runs do not reproduce.
 - The positive-control findings rest on two tasks, and balanced ran a day after plain and explicit.
+- Four negative-control apps (n3, n4, n5, n6) kept a one-line comment from the reference fix that
+  explains the race it prevents; the race and positive apps carry none (`harness/test_tasks.py`). It
+  could only have nudged agents toward timing in the control, where all 30 fixed the deterministic
+  bug and none weakened a test.
 - "mock edited" was a label added after the first four p1 explicit runs had been read; it splits the
   plan's "other" bucket and changes no headline.
 

@@ -13,7 +13,7 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 | Pilot | `results/pilot.jsonl`, `results/judge.jsonl` (raw transcripts lost) |
 | Not scored | `results/infra-errors.jsonl` (API outage), `results/pilot-v0-bash-allowlist.jsonl` |
 
-`python -m pytest harness oracle -q` -> 35 passed (CI runs the same on every push, on Linux).
+`python -m pytest harness oracle -q` -> 38 passed (CI runs the same on every push, on Linux).
 
 ## Open
 1. One Study 1 run is missing (p1 hook r5: rerun lost to a laptop sleep). Optional; RESULT reports n = 9.
@@ -59,6 +59,13 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
   and `harness/test_results_doc.py` fails on an undocumented field or a wrong row count (checked by
   deleting the `port` row: the test failed naming it).
 
+- Round 8 (2026-10-28): the stimuli. `harness/test_tasks.py` checks every task has its oracle files,
+  that n1-n6 share `api.mjs` and `tests/` byte for byte with t1-t6, and that no comment in agent-visible
+  code hints at the bug except the four known negative leaks (a planted hint in t1 was caught). It found
+  n6 missing from the recorded gap, and RESULT.md did not disclose the leak at all; both fixed.
+
 ## Known gaps
-- n3, n4 and n5 negative apps carry the reference fix's explanatory comment; the t-apps carry none.
+- n3, n4, n5 and n6 negative apps carry the reference fix's explanatory comment (n6 was missing from this
+  list until round 8); disclosed in RESULT.md, pinned by `harness/test_tasks.py`. Not edited: the published
+  runs used these files.
 - Two built-in system reminders reach the subject (account email, commit attribution); stated in PLAN.
