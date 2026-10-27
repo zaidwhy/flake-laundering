@@ -13,7 +13,7 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 | Pilot | `results/pilot.jsonl`, `results/judge.jsonl` (raw transcripts lost) |
 | Not scored | `results/infra-errors.jsonl` (API outage), `results/pilot-v0-bash-allowlist.jsonl` |
 
-`python -m pytest harness -q` -> 18 passed.
+`python -m pytest harness -q` -> 27 passed (CI runs the same on every push).
 
 ## Open
 1. One Study 1 run is missing (p1 hook r5: rerun lost to a laptop sleep). Optional; RESULT reports n = 9.
@@ -37,6 +37,10 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 ## Decisions taken without Zaid (2026-10-28)
 - CI (`.github/workflows/check.yml`) runs the harness tests and regenerates both reports on every push;
   agent runs are not repeated in CI (they need a logged-in CLI and an unrestricted shell).
+
+- Round 3 (2026-10-28): `judge.py` had no tests; `harness/test_judge.py` covers verdict parsing and
+  schema refusal, empty diffs skipping the model, truncation of long diffs, and the facts given per task
+  kind. README pass rule and PLAN's rerun note corrected.
 
 ## Known gaps
 - n3, n4 and n5 negative apps carry the reference fix's explanatory comment; the t-apps carry none.

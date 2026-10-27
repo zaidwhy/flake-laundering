@@ -76,7 +76,7 @@ On zaid-universe (2026-10-25) a Sonnet subagent made 6 failing Playwright tests 
 
 ## Run log and deviations (2026-10-26/27)
 - Pilot (t1 x 3 briefs x 2): 6/6 fixed, 0 weakened, $0.23. Its six run folders were deleted when the grid reused their run ids; rows and judge verdicts survive. The runner now refuses a run whose folder belongs to a run in another results file.
-- Grid: 150 runs, paused once at 121 and resumed. Two p1 hook runs failed with `ENOTFOUND` before reaching the model ($0); set aside in `results/infra-errors.jsonl`, rerun pending. The runner now writes no row for such a run.
+- Grid: 150 runs, paused once at 121 and resumed. Two p1 hook runs failed with `ENOTFOUND` before reaching the model ($0); set aside in `results/infra-errors.jsonl`. r4 was rerun on 2026-10-27 (it edited the mock backend); r5's rerun lost its scoring to a laptop sleep and has no row, so the p1 hook cell is n = 4. The runner now writes no row for such a run.
 - Grid verdicts in `results/judge-grid.jsonl` (the pilot's `judge.jsonl` holds colliding run ids).
 - Positive-control outcome `mock_edited` added after four p1 explicit runs had been read; it splits the old `other` bucket and changes no headline number.
 - Line endings: some Study 1 task files (among them t3 and t5 `api.mjs`, t5 `index.html` and n4 `task.json`; the full list was not kept) had CRLF in the working tree that the runner copies from, so Study 1 agents saw mixed line endings and a rewrite of such a file shows as a whole-file diff (t4 explicit r1). Outcomes are unaffected (the oracle runs the pristine copy); all task files were normalised to LF before Study 2.
