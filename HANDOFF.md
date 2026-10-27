@@ -3,7 +3,7 @@
 ## State
 Study 1 is run, scored, hand-reviewed and written up: `RESULT.md`. H1 falsified (0 of 30 weakened on
 the plain brief, Wilson 0-11 percent). Main finding: the "do not change the tests" brief cut correct
-repairs of wrong tests from 9/10 to 0/10. Study 2 is pre-registered in `PLAN.md`, not built.
+repairs of wrong tests from 9/10 to 0/10. Study 2 is pre-registered in `PLAN.md`, built and measured, not run.
 
 | Artifact | Where |
 |---|---|
@@ -22,8 +22,14 @@ repairs of wrong tests from 9/10 to 0/10. Study 2 is pre-registered in `PLAN.md`
    ```
    then `python harness/judge.py results/runs.jsonl --out results/judge-grid.jsonl`, regenerate the
    report, and update the positive-control hook row in `RESULT.md` (now n = 8).
-2. Study 2: build the `split`, `large`, `embedded` tasks and the `balanced` brief per `PLAN.md`, measure
-   flake rates, then Zaid launches the grid.
+2. Study 2 is built and measured (`s1-menu-split`, `l1-menu-large`, `e1-menu-feature`, `balanced` brief;
+   flake rates in `PLAN.md`). 80 runs, launched by Zaid:
+   ```
+   ! cd C:/Users/Asus/projects/flake-laundering && python harness/run.py --tasks s1-menu-split,l1-menu-large,e1-menu-feature --conditions plain --reps 10 --parallel 2 --results results/study2.jsonl ; python harness/run.py --tasks e1-menu-feature --conditions balanced --reps 10 --parallel 2 --results results/study2.jsonl ; python harness/run.py --tasks t1-menu,t2-notes,t3-search,t4-groceries,t5-shortcut,t6-inbox,p1-report,p2-balance --conditions balanced --reps 5 --parallel 2 --results results/study2.jsonl
+   ```
+   Then `python harness/judge.py results/study2.jsonl --out results/judge-study2.jsonl` and
+   `python harness/analyze.py results/study2.jsonl --judge results/judge-study2.jsonl --out results/report-study2.md`,
+   hand review per the plan, and a Study 2 section in `RESULT.md` scored against H3 and H4 as written.
 3. Going public (Zaid's decision 2026-10-26: private until results, then public with a Zenodo deposit).
    Results now exist; flipping the repo public and minting a DOI are left for Zaid to trigger.
 
