@@ -13,7 +13,7 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 | Pilot | `results/pilot.jsonl`, `results/judge.jsonl` (raw transcripts lost) |
 | Not scored | `results/infra-errors.jsonl` (API outage), `results/pilot-v0-bash-allowlist.jsonl` |
 
-`python -m pytest harness oracle -q` -> 33 passed (CI runs the same on every push, on Linux).
+`python -m pytest harness oracle -q` -> 35 passed (CI runs the same on every push, on Linux).
 
 ## Open
 1. One Study 1 run is missing (p1 hook r5: rerun lost to a laptop sleep). Optional; RESULT reports n = 9.
@@ -54,6 +54,10 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
   The detector missed `test.slow()`, click-until-visible `while` loops and `dispatchEvent('click')`;
   new rules `timeout-raised` (slow), `action-loop`, `synthetic-click`. Re-scoring all 229 published diffs
   changes 0 labels, so no reported number moves.
+- Round 7 (2026-10-28): CITATION.cff validated (cffconvert 2.0.0: valid against schema 1.2.0). The
+  public dataset had no data dictionary; `results/README.md` documents every file and every row field,
+  and `harness/test_results_doc.py` fails on an undocumented field or a wrong row count (checked by
+  deleting the `port` row: the test failed naming it).
 
 ## Known gaps
 - n3, n4 and n5 negative apps carry the reference fix's explanatory comment; the t-apps carry none.

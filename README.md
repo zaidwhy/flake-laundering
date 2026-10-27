@@ -34,7 +34,7 @@ by hand.
 | `tasks/s1, l1, e1` | Study 2: t1's bug split across lazy modules, inside a 44-file app, and behind a feature request |
 | `oracle/` | rebuilds a pristine app around the agent's code and runs the original test N times |
 | `harness/` | resumable runner, detector, judge, analysis; `pytest harness` |
-| `results/` | every scored run, judge verdicts, the generated report, the hand review |
+| `results/` | every scored run, judge verdicts, the generated reports, the hand review; fields in [results/README.md](results/README.md) |
 
 ## Running it
 
