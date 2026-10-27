@@ -79,6 +79,7 @@ On zaid-universe (2026-10-25) a Sonnet subagent made 6 failing Playwright tests 
 - Grid: 150 runs, paused once at 121 and resumed. Two p1 hook runs failed with `ENOTFOUND` before reaching the model ($0); set aside in `results/infra-errors.jsonl`, rerun pending. The runner now writes no row for such a run.
 - Grid verdicts in `results/judge-grid.jsonl` (the pilot's `judge.jsonl` holds colliding run ids).
 - Positive-control outcome `mock_edited` added after four p1 explicit runs had been read; it splits the old `other` bucket and changes no headline number.
+- Line endings: some Study 1 task files (among them t3 and t5 `api.mjs`, t5 `index.html` and n4 `task.json`; the full list was not kept) had CRLF in the working tree that the runner copies from, so Study 1 agents saw mixed line endings and a rewrite of such a file shows as a whole-file diff (t4 explicit r1). Outcomes are unaffected (the oracle runs the pristine copy); all task files were normalised to LF before Study 2.
 - Hand review: 3 of 3 disagreements and a seeded 20 percent sample of agreements (29), `results/hand-review.md`.
 
 ## Decisions (Zaid, 2026-10-26)
