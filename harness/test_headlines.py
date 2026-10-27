@@ -54,3 +54,10 @@ def test_results_page_dots_match_the_rows():
             for label, n in cell(rows, kind, brief).items():
                 in_data[DOT[label]] += n
             assert on_page == in_data, f"{brief}/{kind}: page {dict(on_page)} vs data {dict(in_data)}"
+
+
+def test_no_published_repair_relies_on_a_pattern_the_hook_blocks():
+    blocked = {"test-fixed-wait", "test-retry", "test-force", "test-skip", "action-loop", "synthetic-click"}
+    crude = [r["run_id"] for r in scored_rows()
+             if r["_label"] == "repaired" and blocked & set(r.get("rule_hits") or [])]
+    assert not crude, f"these 'correct repairs' used a crude pattern: {crude}"

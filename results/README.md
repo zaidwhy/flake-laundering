@@ -69,6 +69,9 @@ not document, so the page cannot fall behind the data.
 | `pos_mutant_passed`, `pos_mutant_failed`, `pos_detects_mutant` | the agent's tests against a deliberately broken app; detects = at least one failure |
 
 A positive run counts as a correct repair when `pos_pristine_ok` and `pos_detects_mutant` are both true.
+That test alone would also accept a crude repair, such as a fixed wait long enough to cover the slow
+call (the harness's own weakening stand-in scores as a repair on p2 this way). None of the 26 published
+repairs used a fixed wait, retry, forced click or skip; `harness/test_headlines.py` keeps it so.
 
 ## Judge rows (`judge-*.jsonl`)
 
