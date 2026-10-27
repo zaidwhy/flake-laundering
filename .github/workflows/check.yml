@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install pytest==8.3.3
-      - run: python -m pytest harness -q
+      - run: python -m pytest harness oracle -q
       - name: Published reports regenerate byte for byte
         run: |
           python harness/analyze.py results/runs.jsonl --judge results/judge-grid.jsonl --out /tmp/report.md

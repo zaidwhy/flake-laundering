@@ -20,7 +20,9 @@ log = logging.getLogger("oracle")
 STUDY_ROOT = Path(__file__).resolve().parent.parent
 BASE_DIR = STUDY_ROOT / "base"
 TASKS_DIR = STUDY_ROOT / "tasks"
-SHARED_NODE_MODULES = Path(os.environ.get("FLAKE_NODE_MODULES", "C:/flake-runs/shared/node_modules"))
+# outside the home folder on purpose: a subject agent working here must not discover a CLAUDE.md
+WORK_ROOT = Path(os.environ.get("FLAKE_WORK_ROOT", "C:/flake-runs"))
+SHARED_NODE_MODULES = Path(os.environ.get("FLAKE_NODE_MODULES", WORK_ROOT / "shared" / "node_modules"))
 MAX_REPEAT = 200
 RUN_TIMEOUT_S = 1800
 
@@ -50,8 +52,21 @@ def link_node_modules(workdir: Path) -> None:
     target = workdir / "node_modules"
     if target.exists():
         return
-    subprocess.run(["cmd", "/c", "mklink", "/J", str(target), str(SHARED_NODE_MODULES)],
-                   check=True, capture_output=True)
+    if os.name == "nt":
+        # a junction needs no admin rights, unlike a Windows symlink
+        subprocess.run(["cmd", "/c", "mklink", "/J", str(target), str(SHARED_NODE_MODULES)],
+                       check=True, capture_output=True)
+    else:
+        target.symlink_to(SHARED_NODE_MODULES, target_is_directory=True)
+
+
+def unlink_node_modules(workdir: Path) -> None:
+    """Remove the link itself; rmtree would follow it and delete the shared install."""
+    target = workdir / "node_modules"
+    if target.is_symlink():
+        target.unlink()
+    elif target.is_junction():
+        os.rmdir(target)
 
 
 def free_port() -> int:
@@ -80,13 +95,13 @@ def run_tests(workdir: Path, repeat: int, seed: int) -> dict:
 
 
 def judge(task_id: str, repeat: int, seed: int, app_dir: Path | None = None, tests_dir: Path | None = None) -> dict:
-    with tempfile.TemporaryDirectory(prefix=f"oracle-{task_id}-", dir="C:/flake-runs") as tmp:
+    WORK_ROOT.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix=f"oracle-{task_id}-", dir=WORK_ROOT) as tmp:
         workdir = build_workdir(task_id, Path(tmp) / "app", app_dir, tests_dir)
         try:
             return run_tests(workdir, repeat, seed)
         finally:
-            # a junction must be removed before rmtree, or rmtree follows it into the shared install
-            os.rmdir(workdir / "node_modules")
+            unlink_node_modules(workdir)
 
 
 def main() -> None:
@@ -98,7 +113,8 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=1)
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
-    with tempfile.TemporaryDirectory(dir="C:/flake-runs") as tmp:
+    WORK_ROOT.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=WORK_ROOT) as tmp:
         if args.app == "buggy":
             app_dir = None
         elif args.app in ("reference", "mutant"):

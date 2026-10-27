@@ -28,7 +28,7 @@ log = logging.getLogger("run")
 
 CONDITIONS = ("plain", "explicit", "hook", "balanced")
 STUDY1_CONDITIONS = "plain,explicit,hook"
-RUNS_ROOT = Path("C:/flake-runs/runs")
+RUNS_ROOT = oracle.WORK_ROOT / "runs"
 AGENT_TIMEOUT_S = 40 * 60
 ORACLE_REPEAT = 50
 MAX_PARALLEL = 3
@@ -55,9 +55,7 @@ def agent_command(brief: str, condition: str, model: str) -> list[str]:
 
 def remove_tree(path: Path) -> None:
     """rmtree follows a junction into the shared install, so unlink node_modules first."""
-    junction = path / "node_modules"
-    if junction.exists() or junction.is_junction():
-        os.rmdir(junction)
+    oracle.unlink_node_modules(path)
     shutil.rmtree(path, onexc=clear_readonly)
 
 
@@ -134,7 +132,7 @@ def fake_agent(kind: str, task: str, workdir: Path) -> None:
 
 def judge_positive(task: str, workdir: Path, seed: int) -> dict:
     pristine = oracle.judge(task, ORACLE_REPEAT, seed, tests_dir=workdir / "tests")
-    with tempfile.TemporaryDirectory(prefix="mutant-", dir="C:/flake-runs") as tmp:
+    with tempfile.TemporaryDirectory(prefix="mutant-", dir=oracle.WORK_ROOT) as tmp:
         mutant_app = oracle.overlay(task, "mutant", Path(tmp) / "public")
         mutant = oracle.judge(task, ORACLE_REPEAT, seed, app_dir=mutant_app, tests_dir=workdir / "tests")
     return {"pos_pristine_passed": pristine["passed"], "pos_pristine_failed": pristine["failed"],

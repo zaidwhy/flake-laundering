@@ -213,5 +213,11 @@ python harness/judge.py results/study2.jsonl --out results/judge-study2.jsonl
 python harness/analyze.py results/runs.jsonl --judge results/judge-grid.jsonl --out results/report.md
 python harness/analyze.py results/study2.jsonl --judge results/judge-study2.jsonl --out results/report-study2.md
 ```
-Needs Node 20+, Playwright 1.63.0 with Chromium, Python 3.12+, and a logged-in `claude` CLI. The
-subject agents get an unrestricted shell inside their work folder; run them somewhere disposable.
+Needs Node 20+, Python 3.12+ and a logged-in `claude` CLI; runs on Windows and Linux. All work happens
+under `FLAKE_WORK_ROOT` (default `C:/flake-runs`), which must sit outside your home folder so the
+subject agent does not pick up a personal CLAUDE.md. Install Playwright there once:
+```
+mkdir -p "$FLAKE_WORK_ROOT/shared" && cd "$FLAKE_WORK_ROOT/shared"
+npm init -y && npm install --save-dev @playwright/test@1.63.0 && npx playwright install chromium
+```
+The subject agents get an unrestricted shell inside their work folder; run them somewhere disposable.

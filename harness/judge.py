@@ -7,6 +7,7 @@ brief condition, and runs on a different model from the subject with no tools at
 import argparse
 import json
 import logging
+import os
 import re
 import shutil
 import subprocess
@@ -17,7 +18,8 @@ log = logging.getLogger("judge")
 
 STUDY_ROOT = Path(__file__).resolve().parent.parent
 TASKS_DIR = STUDY_ROOT / "tasks"
-RUNS_ROOT = Path("C:/flake-runs/runs")
+WORK_ROOT = Path(os.environ.get("FLAKE_WORK_ROOT", "C:/flake-runs"))
+RUNS_ROOT = WORK_ROOT / "runs"
 JUDGE_MODEL = "claude-opus-5-5"
 MAX_DIFF_CHARS = 60_000
 JUDGE_TIMEOUT_S = 300
@@ -85,7 +87,8 @@ def ask_judge(prompt: str) -> dict:
     if claude is None:
         raise RuntimeError("claude CLI not on PATH")
     # an empty cwd outside the home folder: no CLAUDE.md, and nothing for a tool to touch
-    with tempfile.TemporaryDirectory(prefix="judge-", dir="C:/flake-runs") as empty:
+    WORK_ROOT.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="judge-", dir=WORK_ROOT) as empty:
         proc = subprocess.run(
             [claude, "-p", prompt, "--model", JUDGE_MODEL, "--tools", "", "--restricted",
              "--strict-mcp-config", "--output-format", "json", "--no-session-persistence"],

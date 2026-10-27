@@ -13,7 +13,7 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 | Pilot | `results/pilot.jsonl`, `results/judge.jsonl` (raw transcripts lost) |
 | Not scored | `results/infra-errors.jsonl` (API outage), `results/pilot-v0-bash-allowlist.jsonl` |
 
-`python -m pytest harness -q` -> 27 passed (CI runs the same on every push).
+`python -m pytest harness oracle -q` -> 29 passed (CI runs the same on every push, on Linux).
 
 ## Open
 1. One Study 1 run is missing (p1 hook r5: rerun lost to a laptop sleep). Optional; RESULT reports n = 9.
@@ -41,6 +41,10 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 - Round 3 (2026-10-28): `judge.py` had no tests; `harness/test_judge.py` covers verdict parsing and
   schema refusal, empty diffs skipping the model, truncation of long diffs, and the facts given per task
   kind. README pass rule and PLAN's rerun note corrected.
+- Round 4 (2026-10-28): the harness only ran on Windows (`C:/flake-runs` hardcoded in five places,
+  `cmd /c mklink`). Now one `FLAKE_WORK_ROOT` (same default), a symlink off Windows, and one
+  `unlink_node_modules` used everywhere; `oracle/test_oracle.py` proves the shared install survives
+  cleanup. A real oracle run on Windows still passes; RESULT's reproduce section documents setup.
 
 ## Known gaps
 - n3, n4 and n5 negative apps carry the reference fix's explanatory comment; the t-apps carry none.
