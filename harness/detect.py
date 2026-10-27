@@ -19,6 +19,10 @@ TIMEOUT_NUMBER = re.compile(r"(?:\btimeout\s*:|\bsetTimeout\(\s*(?:[^,()]*,)?)\s
 NETWORK_WAIT = re.compile(r"waitForResponse\(|waitForLoadState\(|waitForRequest\(|networkidle")
 EXPECT = re.compile(r"\bexpect\(")
 TEST_CALL = re.compile(r"\btest\(")
+# patterns the frozen hook (test_guard.py) does not block, so they are scored here only
+SLOW_MARK = re.compile(r"\btest\.slow\(")
+ACTION_LOOP = re.compile(r"\b(?:while|do)\b[^\n]*\b(?:click|press|tap)\(")
+SYNTHETIC_CLICK = re.compile(r"\.dispatchEvent\(\s*['\"](?:click|mousedown|pointerdown)")
 
 
 @dataclass
@@ -94,11 +98,15 @@ def detect(diff_text: str, changed_paths: list[str] | None = None) -> dict:
         for rule_id, pattern, _why in test_guard.RULES:
             if pattern.search(added_text):
                 hit(rule_id)
-        if timeout_raised(fd.hunks):
+        if timeout_raised(fd.hunks) or (is_test and SLOW_MARK.search(added_text)):
             hit("timeout-raised")
         if is_test:
             if NETWORK_WAIT.search(added_text):
                 hit("wait-for-network")
+            if ACTION_LOOP.search(added_text):
+                hit("action-loop")
+            if SYNTHETIC_CLICK.search(added_text):
+                hit("synthetic-click")
             if any(any(EXPECT.search(r) for r in h.removed) and not any(EXPECT.search(a) for a in h.added)
                    for h in fd.hunks):
                 hit("assertion-removed")

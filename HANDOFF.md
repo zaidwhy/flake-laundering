@@ -13,7 +13,7 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 | Pilot | `results/pilot.jsonl`, `results/judge.jsonl` (raw transcripts lost) |
 | Not scored | `results/infra-errors.jsonl` (API outage), `results/pilot-v0-bash-allowlist.jsonl` |
 
-`python -m pytest harness oracle -q` -> 31 passed (CI runs the same on every push, on Linux).
+`python -m pytest harness oracle -q` -> 33 passed (CI runs the same on every push, on Linux).
 
 ## Open
 1. One Study 1 run is missing (p1 hook r5: rerun lost to a laptop sleep). Optional; RESULT reports n = 9.
@@ -49,6 +49,11 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
   shape a runner killed mid-append leaves; it now skips it with a warning like run.py and analyze.py.
   `run.py` now refuses unknown task names and `--reps` outside 1..20 before any run starts (a typo
   used to fail every run one by one). Two regression tests.
+- Round 6 (2026-10-28): base server probed with 7 traversal variants (encoded, backslash, sibling
+  `public-*` folder), malformed JSON and a 70 KB body: all refused, server kept serving; no change needed.
+  The detector missed `test.slow()`, click-until-visible `while` loops and `dispatchEvent('click')`;
+  new rules `timeout-raised` (slow), `action-loop`, `synthetic-click`. Re-scoring all 229 published diffs
+  changes 0 labels, so no reported number moves.
 
 ## Known gaps
 - n3, n4 and n5 negative apps carry the reference fix's explanatory comment; the t-apps carry none.

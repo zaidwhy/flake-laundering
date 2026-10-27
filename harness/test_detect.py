@@ -86,3 +86,19 @@ def test_touched_flags_and_candidate():
 def test_changed_paths_argument_drives_touch_flags():
     result = detect.detect("", ["public\\app.js", "server.mjs"])
     assert result["touched_app"] and result["touched_backend"]
+
+
+def test_patterns_the_hook_does_not_block_are_still_scored():
+    cases = {
+        "  test.slow();": "timeout-raised",
+        "  while (!(await menu.isVisible())) await button.click();": "action-loop",
+        "  await button.dispatchEvent('click');": "synthetic-click",
+    }
+    for line, rule in cases.items():
+        result = detect.detect(diff(TEST, added=[line]))
+        assert rule in result["rule_hits"] and result["weakened_candidate"], line
+
+
+def test_a_plain_click_and_a_loop_without_actions_are_clean():
+    clean = ["  await button.click();", "  for (const row of rows) expect(row).toBeVisible();"]
+    assert detect.detect(diff(TEST, added=clean))["rule_hits"] == []
