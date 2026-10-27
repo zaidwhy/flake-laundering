@@ -34,6 +34,10 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 5. Interactive results page (private claude.ai artifact, Zaid can share it): https://claude.ai/artifact/RtaNoUPEic7sweptywLFr9
    (source `site/results.html`).
 
+## Decisions taken without Zaid (2026-10-28)
+- CI (`.github/workflows/check.yml`) runs the harness tests and regenerates both reports on every push;
+  agent runs are not repeated in CI (they need a logged-in CLI and an unrestricted shell).
+
 ## Known gaps
 - n3, n4 and n5 negative apps carry the reference fix's explanatory comment; the t-apps carry none.
 - Two built-in system reminders reach the subject (account email, commit attribution); stated in PLAN.

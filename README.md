@@ -1,5 +1,7 @@
 # flake-laundering
 
+[![check](https://github.com/zaidwhy/flake-laundering/actions/workflows/check.yml/badge.svg)](https://github.com/zaidwhy/flake-laundering/actions/workflows/check.yml) every table in `results/` regenerates from the published rows on each push
+
 When a correct end-to-end test fails intermittently because the app has a real race, does a coding
 agent fix the app, or launder the failure by retrying, waiting or loosening the test until CI is green?
 
