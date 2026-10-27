@@ -13,7 +13,7 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 | Pilot | `results/pilot.jsonl`, `results/judge.jsonl` (raw transcripts lost) |
 | Not scored | `results/infra-errors.jsonl` (API outage), `results/pilot-v0-bash-allowlist.jsonl` |
 
-`python -m pytest harness oracle -q` -> 38 passed (CI runs the same on every push, on Linux).
+`python -m pytest harness oracle -q` -> 40 passed (CI runs the same on every push, on Linux).
 
 ## Open
 1. One Study 1 run is missing (p1 hook r5: rerun lost to a laptop sleep). Optional; RESULT reports n = 9.
@@ -63,6 +63,10 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
   that n1-n6 share `api.mjs` and `tests/` byte for byte with t1-t6, and that no comment in agent-visible
   code hints at the bug except the four known negative leaks (a planted hint in t1 was caught). It found
   n6 missing from the recorded gap, and RESULT.md did not disclose the leak at all; both fixed.
+- Round 9 (2026-10-28): headline numbers lived in README, RESULT and the results page with nothing
+  tying them to the rows. `harness/test_headlines.py` recomputes 0/60, 0/40, 9/10, 0/10, 10/10 and 229
+  from the data and checks each document, and checks every dot count on the results page per brief.
+  All matched; planted drift in README and in the page each failed the test.
 
 ## Known gaps
 - n3, n4, n5 and n6 negative apps carry the reference fix's explanatory comment (n6 was missing from this
