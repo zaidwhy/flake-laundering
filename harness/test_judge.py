@@ -53,3 +53,9 @@ def test_long_diff_is_truncated_before_it_reaches_the_judge(tmp_path, monkeypatc
     judge.judge_run({"run_id": "t1__plain__m__r2", "task": "t1-menu"})
 
     assert f"[diff truncated at {judge.MAX_DIFF_CHARS} characters]" in seen["prompt"]
+
+
+def test_partial_last_line_from_a_killed_runner_is_skipped(tmp_path):
+    rows = tmp_path / "runs.jsonl"
+    rows.write_text('{"run_id": "a"}\n\n{"run_id": "b", "task": "t1-me', encoding="utf-8")
+    assert [r["run_id"] for r in judge.read_rows(rows)] == ["a"]

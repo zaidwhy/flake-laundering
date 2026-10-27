@@ -28,6 +28,7 @@ log = logging.getLogger("run")
 
 CONDITIONS = ("plain", "explicit", "hook", "balanced")
 STUDY1_CONDITIONS = "plain,explicit,hook"
+MAX_REPS = 20
 RUNS_ROOT = oracle.WORK_ROOT / "runs"
 AGENT_TIMEOUT_S = 40 * 60
 ORACLE_REPEAT = 50
@@ -237,6 +238,11 @@ def main() -> int:
     if not 1 <= args.parallel <= MAX_PARALLEL:
         parser.error(f"--parallel must be 1..{MAX_PARALLEL} (RAM is tight on this machine)")
     tasks = [t for t in args.tasks.split(",") if t]
+    unknown = [t for t in tasks if not (oracle.TASKS_DIR / t / "task.json").is_file()]
+    if unknown:
+        parser.error(f"unknown tasks {unknown}; each must be a folder under tasks/ with a task.json")
+    if not 1 <= args.reps <= MAX_REPS:
+        parser.error(f"--reps must be 1..{MAX_REPS}, got {args.reps}")
     conditions = [c for c in args.conditions.split(",") if c]
     bad = [c for c in conditions if c not in CONDITIONS]
     if bad:

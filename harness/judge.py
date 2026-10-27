@@ -110,6 +110,19 @@ def judge_run(row: dict) -> dict:
     return ask_judge(PROMPT.format(cause=cause, symptom=symptom, test=tests, diff=diff))
 
 
+def read_rows(path: Path) -> list[dict]:
+    """A runner killed mid-append leaves a partial last line; skip it as run.py and analyze.py do."""
+    rows = []
+    for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            rows.append(json.loads(line))
+        except ValueError:
+            log.warning("%s line %d is not valid JSON; skipped", path, number)
+    return rows
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("results", type=Path)
@@ -118,8 +131,8 @@ def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     done = set()
     if args.out.exists():
-        done = {json.loads(line)["run_id"] for line in args.out.read_text(encoding="utf-8").splitlines() if line}
-    rows = [json.loads(line) for line in args.results.read_text(encoding="utf-8").splitlines() if line]
+        done = {row["run_id"] for row in read_rows(args.out)}
+    rows = read_rows(args.results)
     for row in rows:
         if row.get("dry_run") or row["run_id"] in done:
             continue
