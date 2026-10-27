@@ -1,0 +1,25 @@
+name: check
+
+# The harness tests, plus proof that every published table regenerates from the published rows.
+# Agent runs are not repeated here: they need a logged-in Claude CLI and an unrestricted shell.
+on:
+  push:
+  pull_request:
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest==8.3.3
+      - run: python -m pytest harness -q
+      - name: Published reports regenerate byte for byte
+        run: |
+          python harness/analyze.py results/runs.jsonl --judge results/judge-grid.jsonl --out /tmp/report.md
+          python harness/analyze.py results/study2.jsonl --judge results/judge-study2.jsonl --out /tmp/report-study2.md
+          diff /tmp/report.md results/report.md
+          diff /tmp/report-study2.md results/report-study2.md
