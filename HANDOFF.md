@@ -19,16 +19,11 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 1. One Study 1 run is missing (p1 hook r5: rerun lost to a laptop sleep). Optional; RESULT reports n = 9.
    `! cd C:/Users/Asus/projects/flake-laundering && python harness/run.py --tasks p1-report --conditions hook --reps 5 --results results/runs.jsonl`
    then judge, regenerate `results/report.md`, update the hook row in RESULT.md.
-2. Repo is PUBLIC since 2026-10-28 (description and topics set). Remaining for the DOI:
-   On zenodo.org/account/settings/github switch flake-laundering ON (Zenodo only archives a release
-   made after the toggle), then:
-   ```
-   ! cd C:/Users/Asus/projects/flake-laundering && git tag -s v1.0.0 -m "v1.0.0: two studies, 229 runs" && git push origin v1.0.0 && gh release create v1.0.0 --title "v1.0.0: two pre-registered studies, 229 runs" --notes-file RESULT.md
-   ```
-   Confirm the DOI: `curl -s "https://zenodo.org/api/records?q=flake-laundering&sort=mostrecent"`.
-   Then add the DOI to CITATION.cff, README and RESULT.
+2. DONE 2026-10-28: repo public; Zenodo switched on; v1.0.0 archived. Concept DOI 10.5281/zenodo.23721575
+   (resolves to newest), v1.0.0 DOI 10.5281/zenodo.23721576. In CITATION.cff, README (badge, Citing) and RESULT.
+   A future release is archived automatically: tag, push, `gh release create`.
 3. GitHub profile: FLAKE LAUNDERING section and Plate 08 are live on github.com/zaidwhy (commit a99870c).
-   Add the DOI badge once minted.
+   DOI badge added (see below).
 4. LinkedIn: post, first comment, Projects entry and a headline option drafted in
    `projects/weekend-profile-update/rewrites/2026-10-28-flake-laundering.md`. Post after the repo is public.
 5. Interactive results page (private claude.ai artifact, Zaid can share it): https://claude.ai/artifact/RtaNoUPEic7sweptywLFr9

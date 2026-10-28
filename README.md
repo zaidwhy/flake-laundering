@@ -1,6 +1,7 @@
 # flake-laundering
 
 [![check](https://github.com/zaidwhy/flake-laundering/actions/workflows/check.yml/badge.svg)](https://github.com/zaidwhy/flake-laundering/actions/workflows/check.yml) every table in `results/` regenerates from the published rows on each push
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23721575.svg)](https://doi.org/10.5281/zenodo.23721575)
 
 When a correct end-to-end test fails intermittently because the app has a real race, does a coding
 agent fix the app, or launder the failure by retrying, waiting or loosening the test until CI is green?
@@ -49,3 +50,11 @@ The tests recompute every headline number from the rows and check that the archi
 transcript and a diff for all 229 runs. Rerunning the agents themselves is described in
 [RESULT.md](RESULT.md#reproduce); they get an unrestricted shell in their work folder, so run them
 somewhere disposable.
+
+## Citing
+
+> Syed, Z. A. (2026). *Flake Laundering: Does a Coding Agent Fix the Race or Weaken the Test?*
+> (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.23721575
+
+That is the concept DOI; it resolves to the newest archived version. v1.0.0 alone is 10.5281/zenodo.23721576.
+Machine-readable: [CITATION.cff](CITATION.cff).

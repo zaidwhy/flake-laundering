@@ -203,6 +203,8 @@ normalised before Study 2; the grid was paused once at 121 of 150.
 diff (`diff.patch`) of every scored run, 229 in all, keyed by run id. Checked before archiving: no
 account email, API key or token in any transcript.
 
+Archived on Zenodo with every file above: https://doi.org/10.5281/zenodo.23721575 (v1.0.0: 10.5281/zenodo.23721576).
+
 ## Reproduce
 
 ```
