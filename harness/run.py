@@ -233,6 +233,9 @@ def main() -> int:
     parser.add_argument("--tasks", required=True, help="comma separated task ids")
     parser.add_argument("--conditions", default=STUDY1_CONDITIONS)
     parser.add_argument("--reps", type=int, default=1)
+    parser.add_argument("--first-rep", type=int, default=1,
+                        help="number of the first repetition; set it past the reps another results file "
+                             "already holds for this model, since a run id may live in one file only")
     parser.add_argument("--model", default="claude-sonnet-5-5")
     parser.add_argument("--parallel", type=int, default=1)
     parser.add_argument("--results", default=str(REPO_ROOT / "results" / "runs.jsonl"))
@@ -248,6 +251,10 @@ def main() -> int:
         parser.error(f"unknown tasks {unknown}; each must be a folder under tasks/ with a task.json")
     if not 1 <= args.reps <= MAX_REPS:
         parser.error(f"--reps must be 1..{MAX_REPS}, got {args.reps}")
+    last_rep = args.first_rep + args.reps - 1
+    if args.first_rep < 1 or last_rep > MAX_REPS:
+        parser.error(f"--first-rep {args.first_rep} with --reps {args.reps} ends at r{last_rep}; "
+                     f"repetitions are numbered 1..{MAX_REPS}")
     conditions = [c for c in args.conditions.split(",") if c]
     bad = [c for c in conditions if c not in CONDITIONS]
     if bad:
@@ -257,7 +264,8 @@ def main() -> int:
     runs_root = RUNS_ROOT / "_dry" if args.dry_run_agent else RUNS_ROOT
     done = finished_ids(results)
 
-    grid = [(t, c, r) for t, c, r in itertools.product(tasks, conditions, range(1, args.reps + 1))]
+    grid = [(t, c, r) for t, c, r in itertools.product(tasks, conditions,
+                                                         range(args.first_rep, last_rep + 1))]
     todo = []
     for t, c, r in grid:
         run_id = f"{t}__{c}__{args.model}__r{r}"

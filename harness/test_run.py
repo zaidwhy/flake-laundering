@@ -31,13 +31,33 @@ def test_run_in_another_file_without_a_dir_is_free_to_run(tmp_path):
 
 def test_bad_grid_arguments_stop_before_any_run(monkeypatch, capsys):
     for argv, message in ((["--tasks", "t1-mnu"], "unknown tasks ['t1-mnu']"),
-                          (["--tasks", "t1-menu", "--reps", "0"], "--reps must be 1..20, got 0")):
+                          (["--tasks", "t1-menu", "--reps", "0"], "--reps must be 1..20, got 0"),
+                          (["--tasks", "t1-menu", "--reps", "10", "--first-rep", "12"], "ends at r21")):
         monkeypatch.setattr("sys.argv", ["run.py", *argv])
         monkeypatch.setattr(run, "execute", lambda *a, **k: (_ for _ in ()).throw(AssertionError("no run may start")))
         with pytest.raises(SystemExit) as stop:
             run.main()
         assert stop.value.code == 2
         assert message in capsys.readouterr().err
+
+
+def test_first_rep_numbers_the_grid_past_reps_recorded_elsewhere(monkeypatch, tmp_path):
+    started = []
+
+    def scored_row(task, condition, rep, *_rest):
+        started.append(rep)
+        return {"run_id": f"{task}__{condition}__m__r{rep}", "fixed_app": True,
+                "weakened_candidate": False, "rule_hits": []}
+
+    monkeypatch.setattr(run, "execute", scored_row)
+    monkeypatch.setattr(run, "RUNS_ROOT", tmp_path / "runs")
+    anchor = tmp_path / "anchor.jsonl"
+    monkeypatch.setattr("sys.argv", ["run.py", "--tasks", "t1-menu", "--conditions", "plain", "--reps", "3",
+                                     "--first-rep", "6", "--results", str(anchor)])
+
+    assert run.main() == 0
+    assert sorted(started) == [6, 7, 8]
+    assert len(anchor.read_text(encoding="utf-8").splitlines()) == 3
 
 
 def test_scripted_agents_do_their_job_on_every_task(tmp_path):
