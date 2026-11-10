@@ -29,16 +29,16 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 5. Interactive results page (private claude.ai artifact, Zaid can share it): https://claude.ai/artifact/RtaNoUPEic7sweptywLFr9
    (source `site/results.html`).
 
-## Study 3 (2026-11-10): prepared, not run, not committed
+## Study 3 (2026-11-10): pre-registered on branch `study3` (683c770), not run
 Pre-registered in `PLAN.md` ("Study 3"): Sonnet 5.5 anchor, Opus 5.5 and Fable 5.2; Stage A is the
 positive controls (180 runs), Stage B the race, harder and negative tasks (240 runs).
 - New: `run.py --first-rep` (Sonnet reps r6 to r15, since r1 to r5 exist in the published files) and
   `harness/served.py` (lists runs billed to another model). `python -m pytest harness oracle -q` -> 45 passed.
 - All three model ids answered through the headless CLI (2.1.322). One scripted dry run of
   `p1-report` explicit took 7 min of scoring alone, so Stage A is roughly 11 hours or more at `--parallel 2`.
-- Blocked: a stale `.git/index.lock` (no git process running) stops the branch and commit. Zaid deletes
-  it; then branch `study3`, commit, push BEFORE the first subject run so the pre-registration is dated.
-- Then Zaid launches Stage A (the classifier refuses Claude launching subject agents), one arm after
+- The pre-registration was pushed before any subject run. Results land on `study3`; master and the
+  Zenodo record stay as published until the write-up is approved.
+- Zaid launches Stage A (the classifier refuses Claude launching subject agents), one arm after
   another, each with `--tasks p1-report,p2-balance --conditions plain,explicit,balanced --reps 10 --parallel 2`:
   `--first-rep 6 --model claude-sonnet-5-5 --results results/study3-sonnet.jsonl`, then
   `--model claude-opus-5-5 --results results/study3-opus.jsonl`, then
