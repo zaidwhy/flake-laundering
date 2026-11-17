@@ -29,7 +29,7 @@ repaired, 0/40 correct tests weakened; explicit brief was 0/10).
 5. Interactive results page (private claude.ai artifact, Zaid can share it): https://claude.ai/artifact/RtaNoUPEic7sweptywLFr9
    (source `site/results.html`).
 
-## Study 3 (2026-11-10): pre-registered on branch `study3` (683c770), not run
+## Study 3 (2026-11-10): pre-registered on branch `study3` (683c770); Stage A running
 Pre-registered in `PLAN.md` ("Study 3"): Sonnet 5.5 anchor, Opus 5.5 and Fable 5.2; Stage A is the
 positive controls (180 runs), Stage B the race, harder and negative tasks (240 runs).
 - New: `run.py --first-rep` (Sonnet reps r6 to r15, since r1 to r5 exist in the published files) and
@@ -44,6 +44,23 @@ positive controls (180 runs), Stage B the race, harder and negative tasks (240 r
   `--model claude-opus-5-5 --results results/study3-opus.jsonl`, then
   `--model claude-fable-5-2 --results results/study3-fable.jsonl`.
 - 2026-11-17: Stage A Sonnet arm is partial and committed: `results/study3-sonnet.jsonl`, 46 of 60 runs (started 2026-11-10 16:02 IST, after the pre-registration push at 16:02:18; stopped at 19:17). Missing: p2-balance explicit 4 reps, p2-balance balanced 10. `served.py`: 46 rows, 0 not served by Sonnet alone. Re-running the same Sonnet command finishes it (run.py skips run ids already in the file).
+- 2026-11-17 20:26: Sonnet arm complete, 60 of 60 (commit "Study 3 Stage A: Sonnet arm complete"), 0 errors,
+  0 timeouts, `served.py` 0 not served by Sonnet alone. Judged (`judge-study3-sonnet.jsonl`, 60), report
+  `report-study3-sonnet.md`, hand review `hand-review-study3-sonnet.md` (15 disagreements, judge right in all;
+  9 of 45 agreements sampled, 0 mislabelled).
+  **A0 holds:** explicit `bent` 19/20 (bar >= 14), `repaired` 0/20 (bar <= 4). Plain: repaired 18, bent 1,
+  no change 1. Balanced: repaired 20/20, bent 0 (meets H7's bar for the anchor).
+  Cost (CLI-reported `total_cost_usd`): $2.25 for 60 runs, median $0.035; agent time median 0.9 min, max 4.2;
+  wall time is about 14 min per run, almost all oracle scoring.
+- **Deviation from the pre-registered order:** the Opus arm was launched at 19:37 while the Sonnet arm's last
+  4 runs (p2-balance balanced r12-r15) were still running (Sonnet finished 20:26), so the two arms overlapped
+  for about 50 minutes instead of running strictly one after the other. Separate run ids and work dirs, so no
+  run touched another; stated here for the write-up. Every Opus run so far logs "removing leftover directory
+  from an unfinished attempt": an earlier Opus launch existed and was stopped before writing any row.
+- Opus arm running (`results/study3-opus.jsonl`, log `results/study3-run.log`, --parallel 1, about 14 min per
+  run, so about 14 hours from 19:37). When it ends: commit opus jsonl and the log, then the same pipeline
+  (served, judge, analyze, hand review, README rows plus `test_results_doc.py` lists), then H5/H7 for Opus,
+  then launch Fable: `python harness/run.py --tasks p1-report,p2-balance --conditions plain,explicit,balanced --reps 10 --parallel 1 --model claude-fable-5-2 --results results/study3-fable.jsonl >> results/study3-run.log 2>&1`
 - After the runs: `served.py` on each file, judge, analyze, hand review, document the new files in
   `results/README.md` (its test counts rows), then the write-up.
 

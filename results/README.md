@@ -10,6 +10,9 @@ not document, so the page cannot fall behind the data.
 | `runs.jsonl` | 149 | Study 1: t1-t6 x {plain, explicit, hook}, n1-n6 x plain, p1-p2 x all three briefs |
 | `study2.jsonl` | 80 | Study 2: s1, l1, e1 x plain; e1 x balanced; t1-t6, p1-p2 x balanced |
 | `judge-grid.jsonl`, `judge-study2.jsonl` | 149, 80 | LLM judge verdict per run, joined on `run_id` |
+| `study3-sonnet.jsonl` | 60 | Study 3 Stage A, Sonnet 5.5 anchor: p1-p2 x {plain, explicit, balanced} x r6-r15 (branch `study3`) |
+| `judge-study3-sonnet.jsonl` | 60 | LLM judge verdict per Study 3 Sonnet run |
+| `report-study3-sonnet.md`, `hand-review-study3-sonnet.md` | | Study 3 Sonnet tables (`harness/analyze.py`) and its hand review |
 | `pilot.jsonl`, `judge.jsonl` | 6, 6 | pilot on t1 (its transcripts were lost; see PLAN.md) |
 | `pilot-v0-bash-allowlist.jsonl` | | invalid pilot (agents could not run tests); never analysed |
 | `infra-errors.jsonl` | 2 | runs that never reached the model (`ENOTFOUND`); never analysed |
