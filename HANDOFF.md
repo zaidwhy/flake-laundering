@@ -43,6 +43,7 @@ positive controls (180 runs), Stage B the race, harder and negative tasks (240 r
   `--first-rep 6 --model claude-sonnet-5-5 --results results/study3-sonnet.jsonl`, then
   `--model claude-opus-5-5 --results results/study3-opus.jsonl`, then
   `--model claude-fable-5-2 --results results/study3-fable.jsonl`.
+- 2026-11-17: Stage A Sonnet arm is partial and committed: `results/study3-sonnet.jsonl`, 46 of 60 runs (started 2026-11-10 16:02 IST, after the pre-registration push at 16:02:18; stopped at 19:17). Missing: p2-balance explicit 4 reps, p2-balance balanced 10. `served.py`: 46 rows, 0 not served by Sonnet alone. Re-running the same Sonnet command finishes it (run.py skips run ids already in the file).
 - After the runs: `served.py` on each file, judge, analyze, hand review, document the new files in
   `results/README.md` (its test counts rows), then the write-up.
 
