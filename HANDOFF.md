@@ -131,8 +131,8 @@ Stage B total $41.49. Median agent time 2.0 min Opus, 1.7 min Fable.
 **Next:** Study 3 is complete (Stage A and B) and written up in `RESULT-study3.md` (numbers:
 `python harness/study3_numbers.py`; run log appended to PLAN.md). Found while writing it: the CLI updated during
 Stage A (2.1.322, 2.1.326, 2.1.327; Stage B all 2.1.327), and the Sonnet/Opus overlap was 42 min by the rows
-(Sonnet's last run ended 20:19 IST). Open for Zaid: merge to master, release, Zenodo; Study 3 transcripts are
-not in `raw-runs.tar.gz` yet. Untracked `.out`/`.err` runner logs are left out of git, as for Stage A.
+(Sonnet's last run ended 20:19 IST). Open for Zaid: merge to master, release, Zenodo; Study 3 transcripts and
+diffs are archived in `results/raw-runs-study3.tar.gz` (420 runs). Untracked `.out`/`.err` runner logs are left out of git, as for Stage A.
 
 ## Decisions taken without Zaid (2026-10-28)
 - CI (`.github/workflows/check.yml`) runs the harness tests and regenerates both reports on every push;

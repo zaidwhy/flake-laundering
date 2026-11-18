@@ -263,9 +263,10 @@ not by the agent.
   passed 49 of 50 pristine repeats). That costs H7's Opus cell one repair and changes no verdict.
 - **Three models from one vendor** differ in more than capability; a difference is a fact about these
   three models, not about "stronger models".
-- **Raw evidence is local.** `results/raw-runs.tar.gz` holds the 229 Study 1 and 2 runs and none of
-  Study 3; the Study 3 transcripts and diffs, and the CLI versions read from them, are in the run
-  folders on this machine, not in the repository.
+- **Raw evidence.** `results/raw-runs-study3.tar.gz` holds the transcript and diff of all 420 Study 3
+  runs (the CLI versions above are read from these transcripts). 39 Stage A diffs are empty: the
+  `no_change` runs and the 13 Opus runs that committed inside the run (amendment 1); every Stage B
+  diff is non-empty.
 
 ## What this shows
 
