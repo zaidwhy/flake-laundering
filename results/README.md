@@ -13,6 +13,9 @@ not document, so the page cannot fall behind the data.
 | `study3-sonnet.jsonl` | 60 | Study 3 Stage A, Sonnet 5.5 anchor: p1-p2 x {plain, explicit, balanced} x r6-r15 (branch `study3`) |
 | `judge-study3-sonnet.jsonl` | 60 | LLM judge verdict per Study 3 Sonnet run |
 | `report-study3-sonnet.md`, `hand-review-study3-sonnet.md` | | Study 3 Sonnet tables (`harness/analyze.py`) and its hand review |
+| `study3-opus.jsonl` | 60 | Study 3 Stage A, Opus 5.5: p1-p2 x {plain, explicit, balanced} x r1-r10 |
+| `judge-study3-opus.jsonl` | 60 | LLM judge verdict per Study 3 Opus run |
+| `report-study3-opus.md`, `hand-review-study3-opus.md` | | Study 3 Opus tables and hand review |
 | `pilot.jsonl`, `judge.jsonl` | 6, 6 | pilot on t1 (its transcripts were lost; see PLAN.md) |
 | `pilot-v0-bash-allowlist.jsonl` | | invalid pilot (agents could not run tests); never analysed |
 | `infra-errors.jsonl` | 2 | runs that never reached the model (`ENOTFOUND`); never analysed |
