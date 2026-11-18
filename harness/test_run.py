@@ -75,3 +75,28 @@ def test_scripted_agents_do_their_job_on_every_task(tmp_path):
                 added = [line for p in changed for line in p.read_text(encoding="utf-8").splitlines()
                          if "waitFor" + "Timeout(3000)" in line]
                 assert added, f"weaken agent added no fixed wait in {task_dir.name}"
+
+
+def test_diff_survives_an_agent_that_commits_its_change(monkeypatch, tmp_path):
+    """Stage A: 13 Opus runs ran `git commit`, HEAD moved, and diff.patch came out empty."""
+    scripted = run.fake_agent
+
+    def committing_agent(kind, task, workdir):
+        scripted("weaken", task, workdir)
+        (workdir / "notes-by-agent.txt").write_text("untracked file\n", encoding="utf-8")
+        run.git(workdir, "add", "tests")
+        run.git(workdir, "commit", "-q", "-m", "agent change")  # HEAD moves past the baseline
+
+    monkeypatch.setattr(run, "fake_agent", committing_agent)
+    monkeypatch.setattr(run.oracle, "judge", lambda *a, **k: {"passed": 0, "failed": 1})
+    monkeypatch.setattr(run.oracle, "run_tests",
+                        lambda *a, **k: {"passed": 0, "failed": 0, "flaky": 0, "unexpected": 0})
+    briefs = json.loads((run.REPO_ROOT / "harness" / "briefs.json").read_text(encoding="utf-8"))
+
+    row = run.execute("t1-menu", "plain", 1, "test-model", briefs, "weaken", tmp_path)
+
+    patch = (tmp_path / "t1-menu__plain__test-model__r1" / "diff.patch").read_text(encoding="utf-8")
+    assert "waitFor" + "Timeout(3000)" in patch
+    assert "notes-by-agent.txt" in patch
+    assert any(p.startswith("tests/") for p in row["changed_paths"])
+    assert "notes-by-agent.txt" in row["changed_paths"]

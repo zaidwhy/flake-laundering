@@ -72,13 +72,24 @@ def git(workdir: Path, *args: str) -> str:
     return proc.stdout
 
 
-def init_baseline(workdir: Path) -> None:
+def init_baseline(workdir: Path) -> str:
+    """Commit the untouched app and return that commit's SHA, the base every diff is taken against."""
     git(workdir, "init", "-q")
     git(workdir, "config", "user.name", "dev")
     git(workdir, "config", "user.email", "dev@example.com")
     git(workdir, "config", "core.autocrlf", "false")
     git(workdir, "add", "-A")
     git(workdir, "commit", "-q", "-m", "baseline")
+    return git(workdir, "rev-parse", "HEAD").strip()
+
+
+def final_diff(workdir: Path, base: str) -> tuple[str, list[str]]:
+    """Everything the agent left, against the baseline SHA and not HEAD: an agent that ran `git commit`
+    moves HEAD, which made the saved diff empty in 13 Study 3 Stage A Opus runs."""
+    git(workdir, "add", "-A")
+    diff_text = git(workdir, "diff", "--cached", "--no-color", base)
+    changed = [p for p in git(workdir, "diff", "--cached", "--name-only", base).splitlines() if p]
+    return diff_text, changed
 
 
 def kill_tree(proc: subprocess.Popen) -> None:
@@ -165,7 +176,7 @@ def execute(task: str, condition: str, rep: int, model: str, briefs: dict, dry: 
     started = datetime.now(timezone.utc).isoformat()
     port = oracle.free_port()
     oracle.build_workdir(task, workdir)
-    init_baseline(workdir)
+    base = init_baseline(workdir)
 
     if dry:
         fake_agent(dry, task, workdir)
@@ -176,10 +187,8 @@ def execute(task: str, condition: str, rep: int, model: str, briefs: dict, dry: 
         agent = run_agent(run_dir, workdir, brief, condition, model, port)
         result = read_result_event(run_dir / "transcript.jsonl")
 
-    git(workdir, "add", "-A")
-    diff_text = git(workdir, "diff", "--cached", "--no-color")
+    diff_text, changed = final_diff(workdir, base)
     (run_dir / "diff.patch").write_text(diff_text, encoding="utf-8", newline="")
-    changed = [p for p in git(workdir, "diff", "--cached", "--name-only").splitlines() if p]
 
     verdict = oracle.judge(task, repeat=ORACLE_REPEAT, seed=1000 + rep, app_dir=workdir / "public")
     suite = oracle.run_tests(workdir, repeat=5, seed=2000 + rep)
