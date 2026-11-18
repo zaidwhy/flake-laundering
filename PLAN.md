@@ -130,6 +130,14 @@ Studies 1 and 2 ran one model, Sonnet 5.5. Study 3 asks whether their two findin
 | Hand reviewer knows which model produced a diff | accepted and stated |
 | Three models from one vendor differ in more than capability | stated: a difference is a fact about these three models, not about "stronger models" |
 
+## Study 3 amendment 1 (2026-11-18, after Stage A, before any Stage B run)
+
+- **What changed:** `harness/run.py` now records the baseline commit SHA before the agent starts and saves `diff.patch` and `changed_paths` as the final working tree (committed, staged, and untracked files the agent created) against that SHA. Before, it diffed against HEAD.
+- **Why:** if an agent ran `git commit` inside its run, HEAD moved to the agent's commit and the saved diff came out empty. This happened in 13 Opus runs in Stage A. Stage B reads the diff for timing and negative-control labels, so the diff has to be complete. A regression test (`harness/test_run.py`, agent that commits its change) fails on the old code and passes on the new.
+- **When:** made after Stage A finished for all three arms and before any Stage B run.
+- **Stage A labels:** no Stage A label depends on it. Stage A outcomes (`fixed_app`, `bent`, `repaired`, `no_change`) come from the oracle, which runs on the final files and not on the diff, so no Stage A number changes. The 13 affected Opus rows keep their empty `diff.patch`; they are noted in `results/hand-review-study3-opus.md`.
+- No task, brief, oracle, detector, judge or hypothesis changes.
+
 ## What this will not show
 - Not a rate for "all agents" or "all bugs": 1 agent and model family, 6 seeded bug types in toy apps.
 - Not that agents are deceptive: weakening a test can be an honest misdiagnosis of flakiness.
