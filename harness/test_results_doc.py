@@ -18,13 +18,15 @@ def fields_in(*names: str) -> set[str]:
 def test_every_published_field_is_documented():
     missing = fields_in("runs.jsonl", "study2.jsonl", "judge-grid.jsonl", "judge-study2.jsonl",
                         "study3-sonnet.jsonl", "judge-study3-sonnet.jsonl",
-                        "study3-opus.jsonl", "judge-study3-opus.jsonl") - documented_fields()
+                        "study3-opus.jsonl", "judge-study3-opus.jsonl",
+                        "study3-fable.jsonl", "judge-study3-fable.jsonl") - documented_fields()
     assert not missing, f"document these fields in results/README.md: {sorted(missing)}"
 
 
 def test_row_counts_in_the_doc_match_the_files():
     text = (RESULTS / "README.md").read_text(encoding="utf-8")
     for name in ("runs.jsonl", "study2.jsonl", "infra-errors.jsonl", "study3-sonnet.jsonl", "judge-study3-sonnet.jsonl",
-                        "study3-opus.jsonl", "judge-study3-opus.jsonl"):
+                        "study3-opus.jsonl", "judge-study3-opus.jsonl",
+                        "study3-fable.jsonl", "judge-study3-fable.jsonl"):
         count = sum(1 for line in (RESULTS / name).read_text(encoding="utf-8").splitlines() if line.strip())
         assert re.search(rf"\| `{re.escape(name)}` \| {count} \|", text), name

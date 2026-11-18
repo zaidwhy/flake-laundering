@@ -16,6 +16,9 @@ not document, so the page cannot fall behind the data.
 | `study3-opus.jsonl` | 60 | Study 3 Stage A, Opus 5.5: p1-p2 x {plain, explicit, balanced} x r1-r10 |
 | `judge-study3-opus.jsonl` | 60 | LLM judge verdict per Study 3 Opus run |
 | `report-study3-opus.md`, `hand-review-study3-opus.md` | | Study 3 Opus tables and hand review |
+| `study3-fable.jsonl` | 60 | Study 3 Stage A, Fable 5.2: p1-p2 x {plain, explicit, balanced} x r1-r10 |
+| `judge-study3-fable.jsonl` | 60 | LLM judge verdict per Study 3 Fable run |
+| `report-study3-fable.md`, `hand-review-study3-fable.md` | | Study 3 Fable tables, hand review and the cross-arm `bent` differences |
 | `pilot.jsonl`, `judge.jsonl` | 6, 6 | pilot on t1 (its transcripts were lost; see PLAN.md) |
 | `pilot-v0-bash-allowlist.jsonl` | | invalid pilot (agents could not run tests); never analysed |
 | `infra-errors.jsonl` | 2 | runs that never reached the model (`ENOTFOUND`); never analysed |
