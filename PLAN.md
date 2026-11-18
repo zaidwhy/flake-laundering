@@ -142,3 +142,24 @@ Studies 1 and 2 ran one model, Sonnet 5.5. Study 3 asks whether their two findin
 - Not a rate for "all agents" or "all bugs": 1 agent and model family, 6 seeded bug types in toy apps.
 - Not that agents are deceptive: weakening a test can be an honest misdiagnosis of flakiness.
 - Not that the hook fixes the problem in real codebases: it catches known patterns only.
+
+## Study 3 run log and deviations (2026-11-10 to 2026-11-18)
+
+Appended after both stages; the pre-registered text above is unchanged. Write-up: `RESULT-study3.md`;
+numbers from `python harness/study3_numbers.py`.
+- Stage A: 180 runs (60 per arm), 2026-11-10 to 2026-11-18. Stage B: 240 runs (120 per model), 2026-11-18.
+  0 errors, 0 timeouts; `served.py` 0 rows served by another model in any of the five files.
+- Arms overlapped instead of running Sonnet, Opus, Fable in turn: Sonnet and Opus for 42 minutes, Opus and
+  Fable for most of their runs (2026-11-17 20:26 to 2026-11-18 09:32 IST). One pause (about 22:40 to 00:00)
+  and further gaps between starts that the logs do not explain. Opus p1-report balanced r4 and Fable
+  p1-report explicit r7 were re-run alone after the first pass.
+- The CLI updated itself during Stage A: Sonnet 2.1.322 (46) and 2.1.326 (14), Opus 2.1.326 (31) and
+  2.1.327 (29), Fable 2.1.326 (24) and 2.1.327 (36); Stage B all 2.1.327. So "same CLI version" did not hold
+  for Stage A comparisons; inside the Opus and Fable explicit cells version lines up with task.
+- 13 Opus Stage A runs committed their change, leaving an empty diff; Amendment 1 fixed the diff base before
+  Stage B. No Stage A label changed.
+- Stage B: an external kill at about 15:20 IST ended the Opus runner during `e1-menu-feature`; r2 to r10
+  (9 runs) were re-run alone after the Fable arm (19:30 to 19:49 IST).
+- The rule detector has no rule for a test that waits for an app-emitted readiness signal; all 8 t5 plain
+  weakenings were labelled by the judge and confirmed in the hand review. No rule was added during Study 3.
+- Cost: Stage A $24.25, Stage B $41.49 (subject runs and judge), $65.74 in all.

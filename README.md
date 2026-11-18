@@ -17,7 +17,7 @@ and weakened 0 of 40 correct ones.
 Full write-up with intervals, controls and limits: [RESULT.md](RESULT.md). Design, hypotheses and the
 pre-registered follow-up: [PLAN.md](PLAN.md).
 
-## Study 3 (branch `study3`, pre-registered 2026-11-10; write-up pending)
+## Study 3 (branch `study3`, pre-registered 2026-11-10)
 
 The same tasks on two stronger models, Opus 5.5 and Fable 5.2, with Sonnet 5.5 rerun as an anchor
 (hypotheses and bars in [PLAN.md](PLAN.md#study-3-pre-registered-2026-11-10-before-any-study-3-subject-run)).
@@ -35,6 +35,7 @@ The same tasks on two stronger models, Opus 5.5 and Fable 5.2, with Sonnet 5.5 r
   model. Harder variants (split, large, feature request): 0 of 30 weakened, 30 of 30 fixed per model.
   Negative control: 30 of 30 fixed, 0 weakened per model.
 
+Write-up with every verdict, deviation and limit: [RESULT-study3.md](RESULT-study3.md).
 Tables: `results/report-study3-*.md`, `results/report-study3b-*.md`; hand reviews beside them;
 state and deviations in [HANDOFF.md](HANDOFF.md).
 

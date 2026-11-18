@@ -128,8 +128,11 @@ attached; judge `partial`).
 **Cost (sum of rows):** subject runs $13.28 Opus + $24.43 Fable = $37.71; judge $1.94 + $1.84 = $3.78;
 Stage B total $41.49. Median agent time 2.0 min Opus, 1.7 min Fable.
 
-**Next:** Study 3 is complete (Stage A and B). Write-up in RESULT.md, then the release decision for master and
-Zenodo (Zaid). Untracked `.out`/`.err` runner logs are left out of git, as for Stage A.
+**Next:** Study 3 is complete (Stage A and B) and written up in `RESULT-study3.md` (numbers:
+`python harness/study3_numbers.py`; run log appended to PLAN.md). Found while writing it: the CLI updated during
+Stage A (2.1.322, 2.1.326, 2.1.327; Stage B all 2.1.327), and the Sonnet/Opus overlap was 42 min by the rows
+(Sonnet's last run ended 20:19 IST). Open for Zaid: merge to master, release, Zenodo; Study 3 transcripts are
+not in `raw-runs.tar.gz` yet. Untracked `.out`/`.err` runner logs are left out of git, as for Stage A.
 
 ## Decisions taken without Zaid (2026-10-28)
 - CI (`.github/workflows/check.yml`) runs the harness tests and regenerates both reports on every push;
