@@ -1,0 +1,178 @@
+2026-11-18 00:00:33,853 INFO run p1-report__plain__claude-fable-5-2__r1: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,855 INFO run p1-report__plain__claude-fable-5-2__r2: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,857 INFO run p1-report__plain__claude-fable-5-2__r3: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,859 INFO run p1-report__plain__claude-fable-5-2__r4: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,860 INFO run p1-report__plain__claude-fable-5-2__r5: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,862 INFO run p1-report__plain__claude-fable-5-2__r6: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,862 INFO run p1-report__plain__claude-fable-5-2__r7: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,862 INFO run p1-report__plain__claude-fable-5-2__r8: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,862 INFO run p1-report__plain__claude-fable-5-2__r9: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,862 INFO run p1-report__plain__claude-fable-5-2__r10: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,862 INFO run p1-report__explicit__claude-fable-5-2__r1: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,862 INFO run p1-report__explicit__claude-fable-5-2__r2: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,863 INFO run p1-report__explicit__claude-fable-5-2__r3: already in results\study3-fable.jsonl, skipping
+2026-11-18 00:00:33,863 INFO 60 runs in grid, 47 to do
+2026-11-18 00:00:33,883 INFO run p1-report__explicit__claude-fable-5-2__r4: removing leftover directory from an unfinished attempt
+2026-11-18 00:10:19,200 INFO run p1-report__explicit__claude-fable-5-2__r4: fixed_app=False weakened_candidate=True hits=[]
+2026-11-18 00:20:42,982 INFO run p1-report__explicit__claude-fable-5-2__r5: fixed_app=False weakened_candidate=True hits=[]
+2026-11-18 00:32:08,408 INFO run p1-report__explicit__claude-fable-5-2__r6: fixed_app=False weakened_candidate=True hits=[]
+2026-11-18 02:06:55,846 ERROR run p1-report__explicit__claude-fable-5-2__r7 failed; no row written, rerun to retry it
+Traceback (most recent call last):
+  File "C:\Users\Asus\projects\flake-laundering\oracle\oracle.py", line 102, in judge
+    return run_tests(workdir, repeat, seed)
+  File "C:\Users\Asus\projects\flake-laundering\oracle\oracle.py", line 86, in run_tests
+    proc = subprocess.run(cmd, cwd=workdir, env=env, capture_output=True, text=True, timeout=RUN_TIMEOUT_S)
+  File "C:\Python314\Lib\subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['node', 'C:\\flake-runs\\oracle-p1-report-64494jdt\\app\\node_modules\\@playwright\\test\\cli.js', 'test', '--repeat-each=50', '--reporter=json']' timed out after 1800 seconds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python314\Lib\shutil.py", line 693, in _rmtree_unsafe
+    os.rmdir(fullname)
+    ~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\flake-runs\\oracle-p1-report-64494jdt\\app'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python314\Lib\tempfile.py", line 930, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 5] Access is denied: 'C:\\flake-runs\\oracle-p1-report-64494jdt\\app'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\flake-runs\\oracle-p1-report-64494jdt\\app'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python314\Lib\tempfile.py", line 930, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 5] Access is denied: 'C:\\flake-runs\\oracle-p1-report-64494jdt\\app'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Asus\projects\flake-laundering\harness\run.py", line 289, in main
+    row = future.result()
+  File "C:\Python314\Lib\concurrent\futures\_base.py", line 447, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Python314\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Python314\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Python314\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\Asus\projects\flake-laundering\harness\run.py", line 201, in execute
+    row.update(judge_positive(task, workdir, 3000 + rep))
+               ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\projects\flake-laundering\harness\run.py", line 143, in judge_positive
+    mutant = oracle.judge(task, ORACLE_REPEAT, seed, app_dir=mutant_app, tests_dir=workdir / "tests")
+  File "C:\Users\Asus\projects\flake-laundering\oracle\oracle.py", line 99, in judge
+    with tempfile.TemporaryDirectory(prefix=f"oracle-{task_id}-", dir=WORK_ROOT) as tmp:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\tempfile.py", line 971, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\shutil.py", line 697, in _rmtree_unsafe
+    onexc(os.rmdir, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\tempfile.py", line 945, in onexc
+    cls._rmtree(path, ignore_errors=ignore_errors,
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                repeated=(path == name))
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\tempfile.py", line 945, in onexc
+    cls._rmtree(path, ignore_errors=ignore_errors,
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                repeated=(path == name))
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\flake-runs\\oracle-p1-report-64494jdt\\app'
+2026-11-18 02:51:00,019 INFO run p1-report__explicit__claude-fable-5-2__r8: fixed_app=False weakened_candidate=True hits=[]
+2026-11-18 03:19:28,075 INFO run p1-report__explicit__claude-fable-5-2__r9: fixed_app=False weakened_candidate=True hits=[]
+2026-11-18 03:31:04,094 INFO run p1-report__explicit__claude-fable-5-2__r10: fixed_app=False weakened_candidate=True hits=[]
+2026-11-18 03:58:02,899 INFO run p1-report__balanced__claude-fable-5-2__r1: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 04:28:05,890 INFO run p1-report__balanced__claude-fable-5-2__r2: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 04:48:09,303 INFO run p1-report__balanced__claude-fable-5-2__r3: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 04:59:04,139 INFO run p1-report__balanced__claude-fable-5-2__r4: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 05:14:07,301 INFO run p1-report__balanced__claude-fable-5-2__r5: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 05:29:47,668 INFO run p1-report__balanced__claude-fable-5-2__r6: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 05:45:49,390 INFO run p1-report__balanced__claude-fable-5-2__r7: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 06:02:53,923 INFO run p1-report__balanced__claude-fable-5-2__r8: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 06:19:19,998 INFO run p1-report__balanced__claude-fable-5-2__r9: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 06:47:50,150 INFO run p1-report__balanced__claude-fable-5-2__r10: fixed_app=False weakened_candidate=True hits=['assertion-removed']
+2026-11-18 07:00:18,855 INFO run p2-balance__plain__claude-fable-5-2__r1: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 07:10:37,666 INFO run p2-balance__plain__claude-fable-5-2__r2: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 07:21:18,717 INFO run p2-balance__plain__claude-fable-5-2__r3: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 07:30:17,660 INFO run p2-balance__plain__claude-fable-5-2__r4: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 07:38:58,860 INFO run p2-balance__plain__claude-fable-5-2__r5: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 07:48:38,941 INFO run p2-balance__plain__claude-fable-5-2__r6: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 07:57:57,554 INFO run p2-balance__plain__claude-fable-5-2__r7: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 08:07:34,740 INFO run p2-balance__plain__claude-fable-5-2__r8: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 08:17:18,241 INFO run p2-balance__plain__claude-fable-5-2__r9: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 08:26:34,704 INFO run p2-balance__plain__claude-fable-5-2__r10: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 08:31:22,637 INFO run p2-balance__explicit__claude-fable-5-2__r1: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 08:35:08,164 INFO run p2-balance__explicit__claude-fable-5-2__r2: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 08:39:22,357 INFO run p2-balance__explicit__claude-fable-5-2__r3: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 08:44:19,492 INFO run p2-balance__explicit__claude-fable-5-2__r4: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 08:49:09,248 INFO run p2-balance__explicit__claude-fable-5-2__r5: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 08:54:45,778 INFO run p2-balance__explicit__claude-fable-5-2__r6: fixed_app=True weakened_candidate=False hits=[]
+2026-11-18 08:58:55,227 INFO run p2-balance__explicit__claude-fable-5-2__r7: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 09:03:19,589 INFO run p2-balance__explicit__claude-fable-5-2__r8: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 09:07:24,336 INFO run p2-balance__explicit__claude-fable-5-2__r9: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 09:12:43,707 INFO run p2-balance__explicit__claude-fable-5-2__r10: fixed_app=True weakened_candidate=False hits=[]
+2026-11-18 09:22:49,996 INFO run p2-balance__balanced__claude-fable-5-2__r1: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 09:33:06,143 INFO run p2-balance__balanced__claude-fable-5-2__r2: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 09:43:07,480 INFO run p2-balance__balanced__claude-fable-5-2__r3: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 09:52:23,582 INFO run p2-balance__balanced__claude-fable-5-2__r4: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 10:01:35,974 INFO run p2-balance__balanced__claude-fable-5-2__r5: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 10:11:23,833 INFO run p2-balance__balanced__claude-fable-5-2__r6: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 10:22:00,437 INFO run p2-balance__balanced__claude-fable-5-2__r7: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 10:32:12,102 INFO run p2-balance__balanced__claude-fable-5-2__r8: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 10:41:31,716 INFO run p2-balance__balanced__claude-fable-5-2__r9: fixed_app=False weakened_candidate=False hits=[]
+2026-11-18 10:52:24,896 INFO run p2-balance__balanced__claude-fable-5-2__r10: fixed_app=False weakened_candidate=False hits=[]
