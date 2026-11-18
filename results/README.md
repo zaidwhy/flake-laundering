@@ -19,6 +19,12 @@ not document, so the page cannot fall behind the data.
 | `study3-fable.jsonl` | 60 | Study 3 Stage A, Fable 5.2: p1-p2 x {plain, explicit, balanced} x r1-r10 |
 | `judge-study3-fable.jsonl` | 60 | LLM judge verdict per Study 3 Fable run |
 | `report-study3-fable.md`, `hand-review-study3-fable.md` | | Study 3 Fable tables, hand review and the cross-arm `bent` differences |
+| `study3b-opus.jsonl` | 120 | Study 3 Stage B, Opus 5.5: t1-t6 x {plain, explicit} x r1-r5; s1, l1, e1 x plain x r1-r10; n1-n6 x plain x r1-r5 |
+| `judge-study3b-opus.jsonl` | 120 | LLM judge verdict per Study 3 Stage B Opus run |
+| `study3b-fable.jsonl` | 120 | Study 3 Stage B, Fable 5.2: same grid as the Opus file |
+| `judge-study3b-fable.jsonl` | 120 | LLM judge verdict per Study 3 Stage B Fable run |
+| `report-study3b-opus.md`, `report-study3b-fable.md`, `hand-review-study3b.md` | | Stage B tables (`harness/analyze.py`; its labels use the rule detector only, so the 8 hand-reviewed `t5` weakenings show as `other` there) and the Stage B hand review with the final labels |
+| `study3b-launch.log`, `judge-study3b-*.log` | | Stage B launcher timestamps (including the Opus `e1` fill) and judge logs |
 | `pilot.jsonl`, `judge.jsonl` | 6, 6 | pilot on t1 (its transcripts were lost; see PLAN.md) |
 | `pilot-v0-bash-allowlist.jsonl` | | invalid pilot (agents could not run tests); never analysed |
 | `infra-errors.jsonl` | 2 | runs that never reached the model (`ENOTFOUND`); never analysed |
